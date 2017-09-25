@@ -25,6 +25,15 @@ myActor::~myActor(){
 
 void myActor::SetUp(){
 	vertexShader = vtkSmartPointer<vtkShader>::New();
+	vertexShader->SetType(vtkShader::Type::Vertex);
+	vertexShader->SetSource(ReadShaderFile("C:\\teste\\estudo-framebuffer\\vertesShader.glsl"));
+	vertexShader
+
+	fragmentShader = vtkSmartPointer<vtkShader>::New();
+	fragmentShader->SetType(vtkShader::Type::Fragment);
+	fragmentShader->SetSource(ReadShaderFile("C:\\teste\\estudo-framebuffer\\fragmentShader.glsl"));
+
+
 
 	vtkSmartPointer<vtkCubeSource> cubo = vtkSmartPointer<vtkCubeSource>::New();
 	cubo->SetXLength(1);
@@ -46,4 +55,22 @@ int myActor::RenderVolumetricGeometry(vtkViewport *view){
 
 	}
 	return 1;
+}
+
+const std::string myActor::ReadShaderFile(std::string path)const
+{
+	std::string VertexShaderCode;
+	std::ifstream VertexShaderStream(path.c_str(), std::ios::in);
+	if (VertexShaderStream.is_open()) {
+		std::string Line = "";
+		while (getline(VertexShaderStream, Line))
+			VertexShaderCode += "\n" + Line;
+		VertexShaderStream.close();
+	}
+	else
+	{
+		throw std::exception("arquivo não foi aberto");
+	}
+	std::cout << VertexShaderCode << std::endl;
+	return VertexShaderCode;
 }

@@ -6,7 +6,7 @@
 #include <vtkSmartPointer.h>
 #include <vtkShader.h>
 #include <vtkShaderProgram.h>
-
+#include <string>
 /*
   1) Fazer o mapper desenhar algo.
   1.1) Ele está sendo invocado? - SIM
@@ -49,6 +49,8 @@ private:
 	virtual ~myActor();
 	std::array<double, 6> bounds;
 	void SetUp();
+
+	const std::string ReadShaderFile(std::string path)const;
 public:
 	static myActor* New();
 
