@@ -3,9 +3,13 @@
 #include <vtkRenderer.h>
 #include <array>
 #include <vtkViewport.h>
+#include <vtkSmartPointer.h>
+#include <vtkShader.h>
+#include <vtkShaderProgram.h>
+
 /*
   1) Fazer o mapper desenhar algo.
-  1.1) Ele está sendo invocado?
+  1.1) Ele está sendo invocado? - SIM
   1.2) Ele aceita comandos de opengl?
   1.3) Desenhar um triangulo pra ver o que está acontecendo.
   1.4) Usar a MVP do renderer.
@@ -37,9 +41,14 @@
   */
 class myActor :public vtkProp3D{
 private:
+	vtkSmartPointer<vtkShader> vertexShader, fragmentShader;
+	vtkSmartPointer<vtkShaderProgram> shaderProgram;
+
+	bool isSet;
 	myActor();
 	virtual ~myActor();
 	std::array<double, 6> bounds;
+	void SetUp();
 public:
 	static myActor* New();
 
