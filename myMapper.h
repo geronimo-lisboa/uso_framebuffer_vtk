@@ -1,6 +1,8 @@
 #pragma once
-#include <vtkMapper.h>
+#include <vtkProp3D.h>
 #include <vtkRenderer.h>
+#include <array>
+#include <vtkViewport.h>
 /*
   1) Fazer o mapper desenhar algo.
   1.1) Ele está sendo invocado?
@@ -33,12 +35,18 @@
   7.2) Tentar publicar na base de código da VTK
   7.3) Fazer uns artigos.
   */
-class myMapper :public vtkMapper{
+class myActor :public vtkProp3D{
 private:
-	myMapper();
-	virtual ~myMapper();
+	myActor();
+	virtual ~myActor();
+	std::array<double, 6> bounds;
 public:
-	static myMapper* New();
+	static myActor* New();
 
-	void Render(vtkRenderer* ren, vtkActor* a) override;
+	double* GetBounds() override
+	{
+		return bounds.data();
+	}
+
+	int  RenderVolumetricGeometry(vtkViewport *view) override;
 };

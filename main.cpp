@@ -16,11 +16,10 @@ int main(int argc, char **argv){
 	renderWindow->SetInteractor(renderWindowInteractor);
 	renderWindow->Render();
 
-	vtkSmartPointer<myMapper> mapper = vtkSmartPointer<myMapper>::New();
-	vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-	actor->SetMapper(mapper);
+	vtkSmartPointer<myActor> mapper = vtkSmartPointer<myActor>::New();
 
-	renderer->AddActor(actor);
+
+	renderer->AddActor(mapper);
 	renderer->ResetCamera();
 	renderWindow->Render();
 

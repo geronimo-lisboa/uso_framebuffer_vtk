@@ -2,16 +2,18 @@
 #include <iostream>
 #include <vtkObjectFactory.h>
 
-vtkObjectFactoryNewMacro(myMapper);
+vtkObjectFactoryNewMacro(myActor);
 
-myMapper::myMapper(){
+myActor::myActor(){
+	std::cout << __FUNCTION__ << std::endl;
+	bounds = { { -0.5, 0.5, -0.5, 0.5, -0.5, 0.5 } };
+}
+
+myActor::~myActor(){
 	std::cout << __FUNCTION__ << std::endl;
 }
 
-myMapper::~myMapper(){
+int myActor::RenderVolumetricGeometry(vtkViewport *view){
 	std::cout << __FUNCTION__ << std::endl;
-}
-
-void myMapper::Render(vtkRenderer* ren, vtkActor* a){
-	std::cout << __FUNCTION__ << std::endl;
+	return 1;
 }
