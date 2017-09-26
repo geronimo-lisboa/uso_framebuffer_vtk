@@ -13,7 +13,7 @@
   1.1) Ele está sendo invocado? - SIM
   1.2) Ele aceita comandos de opengl? - SIM
   1.3) Desenhar um triangulo pra ver o que está acontecendo. - SIM
-  1.4) Usar a MVP do renderer.
+  1.4) Usar a MVP do renderer.  - SIM
 
   2) Fazer o renderer desenhar o cubo que eu preciso pra fazer o volume renderer
   2.1) Desenhar o cubo na tela.
