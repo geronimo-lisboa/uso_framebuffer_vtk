@@ -60,7 +60,7 @@ myActor::myActor(){
 	//	cout << pt[0] << ", " << pt[1] << ", " << pt[2] << endl;
 	//	vertexes.push_back(pt[0]); vertexes.push_back(pt[1]); vertexes.push_back(pt[2]);
 	//}
-	bounds = { { -10.0, 10.0, -10.0, 10.0, -10.0, 1.0 } };
+	bounds = { { -1.0, 1.0, -1.0, 1.0, -1.0, 1.0 } };
 	isSet = false;
 }
 
