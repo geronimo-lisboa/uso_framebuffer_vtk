@@ -20,9 +20,7 @@ std::string Shader::ReadShaderFile(std::string path)
 	}
 	else
 	{
-		struct file_read_error : virtual boost::exception { };
 		std::string erro = path + " nao encontrado";
-		//throw std::runtime_error(erro.c_str());
 		BOOST_THROW_EXCEPTION(std::exception(erro.c_str()));
 	}
 	std::cout << VertexShaderCode << std::endl;
@@ -94,7 +92,7 @@ GLuint Shader::MakeShader(GLenum type, std::string source)
 		string _probl = GetShaderInfoLog(shader, glGetShaderiv, glGetShaderInfoLog);
 		ss << "Erro em " << __FUNCTION__ << " : " << _probl;
 		glDeleteShader(shader);
-		throw std::runtime_error(ss.str().c_str());
+		BOOST_THROW_EXCEPTION(std::exception(ss.str().c_str()));
 	}
 	else
 	{
@@ -113,7 +111,7 @@ GLuint Shader::MakeProgram(GLuint vertex_shader, GLuint fragment_shader)
 	if (!program_ok) {
 		string _probl = GetShaderInfoLog(program, glGetProgramiv, glGetProgramInfoLog);
 		glDeleteProgram(program);
-		throw std::runtime_error(_probl.c_str());
+		BOOST_THROW_EXCEPTION(std::exception(_probl.c_str()));
 	}
 	return program;
 }

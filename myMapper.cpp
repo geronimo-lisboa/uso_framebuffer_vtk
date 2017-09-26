@@ -6,6 +6,7 @@
 #include <vtkCleanPolyData.h>
 #include <vtkCubeSource.h>
 #include <vtkPolyData.h>
+#include <vector>
 
 vtkObjectFactoryNewMacro(myActor);
 
@@ -21,14 +22,27 @@ myActor::~myActor(){
 }
 
 void myActor::SetUp(){
-	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertes Shader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
+	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertesShader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
 
-	vtkSmartPointer<vtkCubeSource> cubo = vtkSmartPointer<vtkCubeSource>::New();
-	cubo->SetXLength(1);
-	cubo->SetYLength(1);
-	cubo->SetZLength(1);
-	cubo->SetCenter(0, 0, 0);
-	cubo->Update();
+	//EXPERIMENTO
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);//Passa vertices pra ele
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
+	vao = 0;//Cria o vertex array object e liga o buffer a ele
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	vertexesVbo = 0;//Cria o buffer dos vertices e passa os dados pra ele.
+	glGenBuffers(1, &vertexesVbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexesVbo);
+	glBufferData(GL_ARRAY_BUFFER, vertexes.size() * sizeof(float), vertexes.data(), GL_STATIC_DRAW);
+	shader->UseProgram();
+	GLuint vpLocation = shader->GetAttribute("vp");//ligação vao-shader
+	glEnableVertexAttribArray(vpLocation);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexesVbo);
+	glVertexAttribPointer(vpLocation, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glUseProgram(0);
+	//FIM EXPERIMENTO
 
 	isSet = true;
 }
@@ -40,25 +54,14 @@ int myActor::RenderVolumetricGeometry(vtkViewport *view){
 		SetUp();
 	}
 	else{
-
+		//EXPERIMENTO
+		shader->UseProgram();
+		glBindVertexArray(vao);
+		GLuint vpLocation = shader->GetAttribute("vp");
+		glBindAttribLocation(shader->GetProgramId(), vpLocation, "vp");
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		//FIM EXPERIMENTO
 	}
 	return 1;
 }
 
-const std::string myActor::ReadShaderFile(std::string path)const
-{
-	std::string VertexShaderCode;
-	std::ifstream VertexShaderStream(path.c_str(), std::ios::in);
-	if (VertexShaderStream.is_open()) {
-		std::string Line = "";
-		while (getline(VertexShaderStream, Line))
-			VertexShaderCode += "\n" + Line;
-		VertexShaderStream.close();
-	}
-	else
-	{
-		throw std::exception("arquivo não foi aberto");
-	}
-	std::cout << VertexShaderCode << std::endl;
-	return VertexShaderCode;
-}

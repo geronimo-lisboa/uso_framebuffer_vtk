@@ -7,11 +7,12 @@
 #include <string>
 #include "Shader.h"
 #include <memory>
+#include <vector>
 /*
   1) Fazer o mapper desenhar algo.
   1.1) Ele está sendo invocado? - SIM
-  1.2) Ele aceita comandos de opengl?
-  1.3) Desenhar um triangulo pra ver o que está acontecendo.
+  1.2) Ele aceita comandos de opengl? - SIM
+  1.3) Desenhar um triangulo pra ver o que está acontecendo. - SIM
   1.4) Usar a MVP do renderer.
 
   2) Fazer o renderer desenhar o cubo que eu preciso pra fazer o volume renderer
@@ -45,9 +46,13 @@ private:
 	bool isSet;
 	std::array<double, 6> bounds;
 
+	//EXPERIMENTO
+	std::vector<GLfloat> vertexes; //Estrutura pra guardar os vertices
+	GLuint vao, vertexesVbo; //O vertex array object e o vertex buffer object.
+	//FIM EXPERIMENTO
+
 	myActor();
 	virtual ~myActor();
-	const std::string ReadShaderFile(std::string path)const;
 	void SetUp();
 public:
 	static myActor* New();
