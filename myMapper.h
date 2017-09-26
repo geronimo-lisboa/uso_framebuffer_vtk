@@ -4,9 +4,8 @@
 #include <array>
 #include <vtkViewport.h>
 #include <vtkSmartPointer.h>
-#include <vtkShader.h>
-#include <vtkShaderProgram.h>
 #include <string>
+
 /*
   1) Fazer o mapper desenhar algo.
   1.1) Ele está sendo invocado? - SIM
@@ -41,8 +40,6 @@
   */
 class myActor :public vtkProp3D{
 private:
-	vtkSmartPointer<vtkShader> vertexShader, fragmentShader;
-	vtkSmartPointer<vtkShaderProgram> shaderProgram;
 
 	bool isSet;
 	myActor();

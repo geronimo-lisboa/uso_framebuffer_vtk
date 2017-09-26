@@ -13,9 +13,6 @@ myActor::myActor(){
 	std::cout << __FUNCTION__ << std::endl;
 	bounds = { { -0.5, 0.5, -0.5, 0.5, -0.5, 0.5 } };
 	isSet = false;
-	vertexShader = nullptr;
-	fragmentShader = nullptr;
-	shaderProgram = nullptr;
 }
 
 
@@ -24,15 +21,6 @@ myActor::~myActor(){
 }
 
 void myActor::SetUp(){
-	vertexShader = vtkSmartPointer<vtkShader>::New();
-	vertexShader->SetType(vtkShader::Type::Vertex);
-	vertexShader->SetSource(ReadShaderFile("C:\\teste\\estudo-framebuffer\\vertesShader.glsl"));
-	vertexShader
-
-	fragmentShader = vtkSmartPointer<vtkShader>::New();
-	fragmentShader->SetType(vtkShader::Type::Fragment);
-	fragmentShader->SetSource(ReadShaderFile("C:\\teste\\estudo-framebuffer\\fragmentShader.glsl"));
-
 
 
 	vtkSmartPointer<vtkCubeSource> cubo = vtkSmartPointer<vtkCubeSource>::New();
