@@ -60,7 +60,7 @@ myActor::myActor(){
 	//	cout << pt[0] << ", " << pt[1] << ", " << pt[2] << endl;
 	//	vertexes.push_back(pt[0]); vertexes.push_back(pt[1]); vertexes.push_back(pt[2]);
 	//}
-	bounds = { { -1.0, 1.0, -1.0, 1.0, -1.0, 1.0 } };
+	bounds = { { -10.0, 10.0, -10.0, 10.0, -10.0, 1.0 } };
 	isSet = false;
 }
 
@@ -73,19 +73,19 @@ void myActor::SetUp(){
 	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertesShader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
 
 	//EXPERIMENTO
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	//Amarela, ok
-	vertexes.push_back(-10.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
 	//Branca, ok
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
@@ -93,27 +93,27 @@ void myActor::SetUp(){
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//Azul piscina, ok
+	////Azul piscina, ok
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//Azul, ok
-	vertexes.push_back(1.0f);  vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//Roxo, ???
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f);  vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	////Azul, ok
+	//vertexes.push_back(1.0f);  vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	////Roxo, ???
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f);  vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 
 
 	vao = 0;//Cria o vertex array object e liga o buffer a ele

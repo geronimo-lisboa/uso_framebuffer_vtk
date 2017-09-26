@@ -23,8 +23,8 @@ int main(int argc, char **argv){
 		vtkSmartPointer<myActor> mapper = vtkSmartPointer<myActor>::New();
 
 		renderer->AddActor(mapper);
-		//renderer->GetActiveCamera()->ParallelProjectionOn();
 		renderer->ResetCamera();
+		renderer->GetActiveCamera()->ParallelProjectionOn();
 
 		renderWindow->Render();
 
