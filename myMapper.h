@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include <memory>
 #include <vector>
+#include <vtkPolyData.h>
 /*
   1) Fazer o mapper desenhar algo.
   1.1) Ele está sendo invocado? - SIM
@@ -16,7 +17,7 @@
   1.4) Usar a MVP do renderer.  - SIM
 
   2) Fazer o renderer desenhar o cubo que eu preciso pra fazer o volume renderer
-  2.1) Desenhar o cubo na tela.
+  2.1) Desenhar o cubo na tela. - Fazendo
   2.2) Desenhar segundo as regras do volume rendering.
 
   3) O framebuffer
@@ -45,11 +46,10 @@ private:
 	std::unique_ptr<Shader> shader;
 	bool isSet;
 	std::array<double, 6> bounds;
-
-	//EXPERIMENTO
 	std::vector<GLfloat> vertexes; //Estrutura pra guardar os vertices
 	GLuint vao, vertexesVbo; //O vertex array object e o vertex buffer object.
-	//FIM EXPERIMENTO
+
+	vtkSmartPointer<vtkPolyData> cubePolydata;
 
 	myActor();
 	virtual ~myActor();
@@ -62,5 +62,5 @@ public:
 		return bounds.data();
 	}
 
-	int  RenderVolumetricGeometry(vtkViewport *view) override;
+	int  RenderOpaqueGeometry(vtkViewport *view) override;
 };

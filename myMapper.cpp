@@ -15,6 +15,9 @@
 #include <sstream>
 #include <gl/GLU.h>
 #include <exception>
+#include <vtkCubeSource.h>
+#include <vtkPoints.h>
+#include <vtkTriangleFilter.h>
 
 vtkObjectFactoryNewMacro(myActor);
 
@@ -36,8 +39,28 @@ public:
 };
 
 myActor::myActor(){
-	std::cout << __FUNCTION__ << std::endl;
-	bounds = { { -0.5, 0.5, -0.5, 0.5, -0.5, 0.5 } };
+	//Geração do cubo
+	//vtkSmartPointer<vtkCubeSource> cubeSrc = vtkSmartPointer<vtkCubeSource>::New();
+	//cubeSrc->SetXLength(1);
+	//cubeSrc->SetYLength(1);
+	//cubeSrc->SetZLength(1);
+	//cubeSrc->SetCenter(0, 0, 0);
+	//vtkSmartPointer<vtkTriangleFilter> triangler = vtkSmartPointer<vtkTriangleFilter>::New();
+	//triangler->SetInputConnection(cubeSrc->GetOutputPort());
+	//triangler->Update();
+
+	//cubePolydata = triangler->GetOutput();
+	//cubePolydata->Print(std::cout);
+	//vtkSmartPointer<vtkPoints> points = cubePolydata->GetPoints();
+	//const int numPontos = points->GetNumberOfPoints();
+	//for (int i = 0; i < numPontos; i++)
+	//{
+	//	array<double, 3> pt;
+	//	points->GetPoint(i, pt.data());
+	//	cout << pt[0] << ", " << pt[1] << ", " << pt[2] << endl;
+	//	vertexes.push_back(pt[0]); vertexes.push_back(pt[1]); vertexes.push_back(pt[2]);
+	//}
+	bounds = { { -1.0, 1.0, -1.0, 1.0, -1.0, 1.0 } };
 	isSet = false;
 }
 
@@ -50,10 +73,49 @@ void myActor::SetUp(){
 	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertesShader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
 
 	//EXPERIMENTO
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);//Passa vertices pra ele
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//Amarela, ok
+	vertexes.push_back(-10.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//Branca, ok
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//Azul piscina, ok
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//Azul, ok
+	vertexes.push_back(1.0f);  vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//Roxo, ???
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f);  vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+
+
 	vao = 0;//Cria o vertex array object e liga o buffer a ele
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -72,8 +134,7 @@ void myActor::SetUp(){
 	isSet = true;
 }
 
-int myActor::RenderVolumetricGeometry(vtkViewport *view){
-	std::cout << __FUNCTION__ << std::endl;
+int myActor::RenderOpaqueGeometry(vtkViewport *view){
 	if (!isSet)
 	{
 		SetUp();
@@ -99,7 +160,8 @@ int myActor::RenderVolumetricGeometry(vtkViewport *view){
 		glBindAttribLocation(shader->GetProgramId(), vpLocation, "vp");
 		GLuint mvpLocation = shader->GetUniform("mvp");
 		glUniformMatrix4fv(mvpLocation, 1, false, mvpData.data());//passa a mvp pro shader
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+		glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
 
 		err = glGetError();
 		if (err != GL_NO_ERROR)

@@ -4,6 +4,7 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkSmartPointer.h>
 #include <vtkActor.h>
+#include <vtkCamera.h>
 
 #include <boost/exception/all.hpp>
 
@@ -22,7 +23,9 @@ int main(int argc, char **argv){
 		vtkSmartPointer<myActor> mapper = vtkSmartPointer<myActor>::New();
 
 		renderer->AddActor(mapper);
+		//renderer->GetActiveCamera()->ParallelProjectionOn();
 		renderer->ResetCamera();
+
 		renderWindow->Render();
 
 		renderWindowInteractor->Start();
