@@ -21,7 +21,7 @@ myActor::~myActor(){
 }
 
 void myActor::SetUp(){
-
+	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertes Shader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
 
 	vtkSmartPointer<vtkCubeSource> cubo = vtkSmartPointer<vtkCubeSource>::New();
 	cubo->SetXLength(1);

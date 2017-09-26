@@ -5,25 +5,32 @@
 #include <vtkSmartPointer.h>
 #include <vtkActor.h>
 
+#include <boost/exception/all.hpp>
+
 #include "myMapper.h"
 
 int main(int argc, char **argv){
-	vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
-	vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
-	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+	try{
+		vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
+		vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+		vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 
-	renderWindow->AddRenderer(renderer);
-	renderWindow->SetInteractor(renderWindowInteractor);
-	renderWindow->Render();
+		renderWindow->AddRenderer(renderer);
+		renderWindow->SetInteractor(renderWindowInteractor);
+		renderWindow->Render();
 
-	vtkSmartPointer<myActor> mapper = vtkSmartPointer<myActor>::New();
+		vtkSmartPointer<myActor> mapper = vtkSmartPointer<myActor>::New();
 
+		renderer->AddActor(mapper);
+		renderer->ResetCamera();
+		renderWindow->Render();
 
-	renderer->AddActor(mapper);
-	renderer->ResetCamera();
-	renderWindow->Render();
-
-	renderWindowInteractor->Start();
+		renderWindowInteractor->Start();
+	}
+	catch (boost::exception &ex)
+	{
+		std::cout << boost::diagnostic_information(ex) << std::endl;
+	}
 
 	return EXIT_SUCCESS;
 }

@@ -5,7 +5,8 @@
 #include <vtkViewport.h>
 #include <vtkSmartPointer.h>
 #include <string>
-
+#include "Shader.h"
+#include <memory>
 /*
   1) Fazer o mapper desenhar algo.
   1.1) Ele está sendo invocado? - SIM
@@ -40,14 +41,14 @@
   */
 class myActor :public vtkProp3D{
 private:
-
+	std::unique_ptr<Shader> shader;
 	bool isSet;
+	std::array<double, 6> bounds;
+
 	myActor();
 	virtual ~myActor();
-	std::array<double, 6> bounds;
-	void SetUp();
-
 	const std::string ReadShaderFile(std::string path)const;
+	void SetUp();
 public:
 	static myActor* New();
 

@@ -2,6 +2,10 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "utils.h"
+#include <boost/exception/all.hpp>
+#include <boost/shared_ptr.hpp>
+
 using namespace std;
 
 std::string Shader::ReadShaderFile(std::string path)
@@ -16,7 +20,10 @@ std::string Shader::ReadShaderFile(std::string path)
 	}
 	else
 	{
-		throw std::exception("arquivo não foi aberto");
+		struct file_read_error : virtual boost::exception { };
+		std::string erro = path + " nao encontrado";
+		//throw std::runtime_error(erro.c_str());
+		BOOST_THROW_EXCEPTION(std::exception(erro.c_str()));
 	}
 	std::cout << VertexShaderCode << std::endl;
 	return VertexShaderCode;
