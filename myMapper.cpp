@@ -130,8 +130,8 @@ int myActor::RenderOpaqueGeometry(vtkViewport *view){
 		GLenum err = GL_NO_ERROR;
 		//Montagem da matriz mvp e sua preparação pro shader
 		vtkRenderer* ren = vtkRenderer::SafeDownCast(view);
-		vtkMatrix4x4* projMat = ren->GetActiveCamera()->GetProjectionTransformMatrix(ren);
-		vtkMatrix4x4* viewMat = ren->GetActiveCamera()->GetViewTransformMatrix();
+		vtkSmartPointer<vtkMatrix4x4> projMat = ren->GetActiveCamera()->GetProjectionTransformMatrix(ren);
+		vtkSmartPointer<vtkMatrix4x4> viewMat = ren->GetActiveCamera()->GetViewTransformMatrix();
 		vtkSmartPointer<vtkMatrix4x4> vpMat = vtkSmartPointer<vtkMatrix4x4>::New();
 		vtkMatrix4x4::Multiply4x4(projMat, viewMat, vpMat);
 		std::array<float, 16> mvpData;//Tem que ser float, o opengl moderno aparentemente não aceita doubles nos uniforms
@@ -139,9 +139,6 @@ int myActor::RenderOpaqueGeometry(vtkViewport *view){
 		{
 			mvpData[i] = vpMat->GetElement(i / 4, i % 4);
 		}
-		vpMat = nullptr;
-		projMat->Delete();
-		viewMat->Delete();
 		glBindVertexArray(vao);//Começa a usar o vartex array
 		shader->UseProgram();//Começa a usar o shader
 
