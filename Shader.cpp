@@ -130,7 +130,7 @@ Shader::~Shader()
 {
 	glDeleteShader(vsId);
 	glDeleteShader(fsId);
-	glDeleteShader(programId);
+	glDeleteProgram(programId);
 }
 
 GLuint Shader::GetUniform(string name)

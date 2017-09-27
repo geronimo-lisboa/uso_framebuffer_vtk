@@ -55,6 +55,7 @@ private:
 	virtual ~myActor();
 	void SetUp();
 public:
+	vtkTypeMacro(myActor, vtkProp3D);
 	static myActor* New();
 
 	double* GetBounds() override

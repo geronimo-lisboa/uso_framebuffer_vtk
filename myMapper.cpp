@@ -17,6 +17,7 @@
 #include <exception>
 #include <vtkCubeSource.h>
 #include <vtkPoints.h>
+#include <vtkWeakPointer.h>
 #include <vtkTriangleFilter.h>
 
 vtkObjectFactoryNewMacro(myActor);
@@ -39,39 +40,24 @@ public:
 };
 
 myActor::myActor(){
-	//Geração do cubo
-	//vtkSmartPointer<vtkCubeSource> cubeSrc = vtkSmartPointer<vtkCubeSource>::New();
-	//cubeSrc->SetXLength(1);
-	//cubeSrc->SetYLength(1);
-	//cubeSrc->SetZLength(1);
-	//cubeSrc->SetCenter(0, 0, 0);
-	//vtkSmartPointer<vtkTriangleFilter> triangler = vtkSmartPointer<vtkTriangleFilter>::New();
-	//triangler->SetInputConnection(cubeSrc->GetOutputPort());
-	//triangler->Update();
-
-	//cubePolydata = triangler->GetOutput();
-	//cubePolydata->Print(std::cout);
-	//vtkSmartPointer<vtkPoints> points = cubePolydata->GetPoints();
-	//const int numPontos = points->GetNumberOfPoints();
-	//for (int i = 0; i < numPontos; i++)
-	//{
-	//	array<double, 3> pt;
-	//	points->GetPoint(i, pt.data());
-	//	cout << pt[0] << ", " << pt[1] << ", " << pt[2] << endl;
-	//	vertexes.push_back(pt[0]); vertexes.push_back(pt[1]); vertexes.push_back(pt[2]);
-	//}
 	bounds = { { -1.0, 1.0, -1.0, 1.0, -1.0, 1.0 } };
 	isSet = false;
 }
 
 
 myActor::~myActor(){
+	glDeleteBuffers(1, &vertexesVbo);
+	glDeleteVertexArrays(1, &vao);
 	std::cout << __FUNCTION__ << std::endl;
 }
 
 void myActor::SetUp(){
+#ifdef AVELL
+	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\vertesShader.glsl", "C:\\programacao\\estudo-framebuffer\\fragmentShader.glsl");
+#endif
+#ifdef MEDILAB
 	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertesShader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
-
+#endif
 	//EXPERIMENTO
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
@@ -153,6 +139,9 @@ int myActor::RenderOpaqueGeometry(vtkViewport *view){
 		{
 			mvpData[i] = vpMat->GetElement(i / 4, i % 4);
 		}
+		vpMat = nullptr;
+		projMat->Delete();
+		viewMat->Delete();
 		glBindVertexArray(vao);//Começa a usar o vartex array
 		shader->UseProgram();//Começa a usar o shader
 
