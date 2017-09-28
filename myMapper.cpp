@@ -19,6 +19,7 @@
 #include <vtkPoints.h>
 #include <vtkWeakPointer.h>
 #include <vtkTriangleFilter.h>
+#include <array>
 
 vtkObjectFactoryNewMacro(myActor);
 
@@ -52,63 +53,85 @@ myActor::~myActor(){
 }
 
 void myActor::SetUp(){
+
 #ifdef AVELL
 	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\vertesShader.glsl", "C:\\programacao\\estudo-framebuffer\\fragmentShader.glsl");
 #endif
 #ifdef MEDILAB
 	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertesShader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
 #endif
-	//EXPERIMENTO
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//Amarela, ok
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//Branca, ok
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//Azul piscina, ok
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//Azul, ok
-	vertexes.push_back(1.0f);  vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//Roxo, ???
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f);  vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//Define os vertices
+	std::array<GLfloat, 3> pt0 = { { 1, 1, 1 } };
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt0, vertexes);
+	std::array<GLfloat, 3> pt1 = { { -1, 1, 1 } };
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt1, vertexes);
+	std::array<GLfloat, 3> pt2 = { { 1, -1, 1 } };
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt2, vertexes);
+	std::array<GLfloat, 3> pt3 = { { -1, -1, 1 } };
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt3, vertexes);
+	std::array<GLfloat, 3> pt4 = { { 1, 1, -1 } };
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt4, vertexes);
+	std::array<GLfloat, 3> pt5 = { { -1, 1, -1 } };
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt5, vertexes);
+	std::array<GLfloat, 3> pt6 = { { 1, -1, -1 } };
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt6, vertexes);
+	std::array<GLfloat, 3> pt7 = { { -1, -1, -1 } };
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt7, vertexes);
+	//Define os indices das faces
+	std::array<GLuint, 36> elementArray = { {0,1,2, 1,2,3, 1,5,3, 5,3,7, 5, 4, 7, 4, 7, 6, 4, 0, 6, 0, 6, 2, 4,0,5, 5,0,1,6,2,7,7,2,3} };
+	PushTuple<std::array<GLuint, 36>, std::vector<GLuint>>(elementArray, indexes);
+	////EXPERIMENTO
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	////Amarela, ok
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	////Branca, ok
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	////Azul piscina, ok
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	////Azul, ok
+	//vertexes.push_back(1.0f);  vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	////Roxo, ???
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f);  vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 
 
 	vao = 0;//Cria o vertex array object e liga o buffer a ele
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	vertexesVbo = 0;//Cria o buffer dos vertices e passa os dados pra ele.
-	glGenBuffers(1, &vertexesVbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexesVbo);
-	glBufferData(GL_ARRAY_BUFFER, vertexes.size() * sizeof(float), vertexes.data(), GL_STATIC_DRAW);
+	vertexesVbo = CreateGLArrayBuffer<GLfloat>(vertexes);
+	elementBuffer = 0;//cria os elementos
+	elementBuffer = CreateGLElementBuffer<GLuint>(indexes);
+
 	shader->UseProgram();
 	GLuint vpLocation = shader->GetAttribute("vp");//ligação vao-shader
 	glEnableVertexAttribArray(vpLocation);
@@ -147,7 +170,9 @@ int myActor::RenderOpaqueGeometry(vtkViewport *view){
 		GLuint mvpLocation = shader->GetUniform("mvp");
 		glUniformMatrix4fv(mvpLocation, 1, true, mvpData.data());//passa a mvp pro shader
 
-		glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+		glDrawElements(GL_TRIANGLES, indexes.size(), GL_UNSIGNED_INT, (void*)0);
+		//glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
 
 		err = glGetError();
 		if (err != GL_NO_ERROR)

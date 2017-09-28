@@ -17,7 +17,7 @@
   1.4) Usar a MVP do renderer.  - SIM
 
   2) Fazer o renderer desenhar o cubo que eu preciso pra fazer o volume renderer
-  2.1) Desenhar o cubo na tela. - Fazendo
+  2.1) Desenhar o cubo na tela. - FEITO
   2.2) Desenhar segundo as regras do volume rendering.
 
   3) O framebuffer
@@ -47,13 +47,38 @@ private:
 	bool isSet;
 	std::array<double, 6> bounds;
 	std::vector<GLfloat> vertexes; //Estrutura pra guardar os vertices
-	GLuint vao, vertexesVbo; //O vertex array object e o vertex buffer object.
+	std::vector<GLuint> indexes;
+	GLuint vao, vertexesVbo, elementBuffer; //O vertex array object e o vertex buffer object.
+	//Método para fazer push de coisas nos buffers
+	template<class TTuple, class TVector> void PushTuple(const TTuple &t, TVector &v){
+		for (unsigned int i = 0; i < t.size(); i++)
+		{
+			v.push_back(t[i]);
+		}
+	}
+	//Pra criar as arrays de buffers
+	template<class TType> GLuint CreateGLArrayBuffer(const std::vector<TType> &list){
+		GLuint _buff = 0;
+		glGenBuffers(1, &_buff);
+		glBindBuffer(GL_ARRAY_BUFFER, _buff);
+		glBufferData(GL_ARRAY_BUFFER, list.size() * sizeof(TType), list.data(), GL_STATIC_DRAW);
+		return _buff;
+	}
+	//Pra criar a array de elementos - é um método separado pq não soube saber se era pra usar a GL_ELEMENT_ARRAY_BUFFER
+	//ao inves da GL_ARRAY_BUFFER sem fazer gambiarra.
+	template<class TType> GLuint CreateGLElementBuffer(const std::vector<TType> &list){
+		GLuint _buff = 0;
+		glGenBuffers(1, &_buff);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buff);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, list.size() * sizeof(TType), list.data(), GL_STATIC_DRAW);
+		return _buff;
+	}
 
-	vtkSmartPointer<vtkPolyData> cubePolydata;
 
 	myActor();
 	virtual ~myActor();
 	void SetUp();
+
 public:
 	vtkTypeMacro(myActor, vtkProp3D);
 	static myActor* New();

@@ -12,29 +12,6 @@
 
 #include <vtkDebugLeaks.h>
 
-//class myRenderPassExperimento : public vtkRenderPass
-//{
-//public:
-//	void Render(const vtkRenderState *s) override
-//	{
-//		glClearDepth(1.0f);									// Depth Buffer Setup
-//		glEnable(GL_DEPTH_TEST); // enable depth-testing
-//		glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
-//
-//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//		const int propCount = s->GetPropArrayCount();
-//		for (auto i = 0; i < propCount; i++)
-//		{
-//			s->GetPropArray()[i]->RenderOpaqueGeometry(s->GetRenderer()); //OpaqueGeometry(s->GetRenderer());
-//		}
-//	}
-//	static myRenderPassExperimento* New()
-//	{
-//		return new myRenderPassExperimento();
-//	}
-//};
-
-
 int main(int argc, char **argv){
 	try{
 
@@ -51,8 +28,8 @@ int main(int argc, char **argv){
 
 		renderer->AddActor(mapper);
 		renderer->ResetCamera();
-		renderer->GetActiveCamera()->ParallelProjectionOn();
-		renderer->GetActiveCamera()->Zoom(1.5);
+		//renderer->GetActiveCamera()->ParallelProjectionOn();
+		//renderer->GetActiveCamera()->Zoom(1.5);
 
 
 		renderer->ResetCamera();
