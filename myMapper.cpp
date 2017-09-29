@@ -80,49 +80,6 @@ void myActor::SetUp(){
 	//Define os indices das faces
 	std::array<GLuint, 36> elementArray = { {0,1,2, 1,2,3, 1,5,3, 5,3,7, 5, 4, 7, 4, 7, 6, 4, 0, 6, 0, 6, 2, 4,0,5, 5,0,1,6,2,7,7,2,3} };
 	PushTuple<std::array<GLuint, 36>, std::vector<GLuint>>(elementArray, indexes);
-	////EXPERIMENTO
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	////Amarela, ok
-	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	////Branca, ok
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	////Azul piscina, ok
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	////Azul, ok
-	//vertexes.push_back(1.0f);  vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-	////Roxo, ???
-	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f);  vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-	//vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	//vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
-
 
 	vao = 0;//Cria o vertex array object e liga o buffer a ele
 	glGenVertexArrays(1, &vao);
@@ -149,7 +106,8 @@ int myActor::RenderOpaqueGeometry(vtkViewport *view){
 		SetUp();
 	}
 	else{
-		//EXPERIMENTO
+		glFrontFace(GL_CW);
+
 		GLenum err = GL_NO_ERROR;
 		//Montagem da matriz mvp e sua preparação pro shader
 		vtkRenderer* ren = vtkRenderer::SafeDownCast(view);

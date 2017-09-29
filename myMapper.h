@@ -17,8 +17,8 @@
   1.4) Usar a MVP do renderer.  - SIM
 
   2) Fazer o renderer desenhar o cubo que eu preciso pra fazer o volume renderer
-  2.1) Desenhar o cubo na tela. - FEITO
-  2.2) Desenhar segundo as regras do volume rendering.
+  2.1) Desenhar o cubo na tela. - SIM
+  2.2) Desenhar segundo as regras do volume rendering. - SIM
 
   3) O framebuffer
   3.1) Guardar o desenho do cubo no framebuffer, como falam para fazer com volume rendering.
