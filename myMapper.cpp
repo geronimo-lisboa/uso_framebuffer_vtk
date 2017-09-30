@@ -2,10 +2,6 @@
 #include <iostream>
 #include <vtkObjectFactory.h>
 #include <vtkPolyData.h>
-#include <vtkTriangleFilter.h>
-#include <vtkCleanPolyData.h>
-#include <vtkCubeSource.h>
-#include <vtkPolyData.h>
 #include <vector>
 #include <vtkRenderer.h>
 #include <vtkCamera.h>
@@ -14,11 +10,6 @@
 #include <boost/shared_ptr.hpp>
 #include <sstream>
 #include <gl/GLU.h>
-#include <exception>
-#include <vtkCubeSource.h>
-#include <vtkPoints.h>
-#include <vtkWeakPointer.h>
-#include <vtkTriangleFilter.h>
 #include <array>
 
 vtkObjectFactoryNewMacro(myActor);
@@ -61,33 +52,54 @@ void myActor::SetUp(){
 	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertesShader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
 #endif
 	//Define os vertices
-	std::array<GLfloat, 3> pt0 = { { 1, 1, 1 } };
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt0, vertexes);
-	std::array<GLfloat, 3> pt1 = { { -1, 1, 1 } };
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt1, vertexes);
-	std::array<GLfloat, 3> pt2 = { { 1, -1, 1 } };
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt2, vertexes);
-	std::array<GLfloat, 3> pt3 = { { -1, -1, 1 } };
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt3, vertexes);
-	std::array<GLfloat, 3> pt4 = { { 1, 1, -1 } };
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt4, vertexes);
-	std::array<GLfloat, 3> pt5 = { { -1, 1, -1 } };
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt5, vertexes);
-	std::array<GLfloat, 3> pt6 = { { 1, -1, -1 } };
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt6, vertexes);
-	std::array<GLfloat, 3> pt7 = { { -1, -1, -1 } };
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>(pt7, vertexes);
+	//EXPERIMENTO
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,1, 1} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ {  1,1,1 } }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,-1,1 } }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,1,1 } }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ {  1,1,1 } }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ {  1,-1,1 } }, vertexes);
+	//Amarela, ok
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,-1.0f} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0f} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,-1.0f} }, vertexes);
+	//Branca, ok
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,-1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,-1.0f,} }, vertexes);
+	//Azul piscina, ok
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,-1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f,} }, vertexes);
+	//Azul, ok
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f, 1.0f,-1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,-1.0f,} }, vertexes);
+	//Roxo, ???
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f, -1.0f,-1.0f} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,-1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,1.0f,} }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0f,} }, vertexes);
 	//Define os indices das faces
-	std::array<GLuint, 36> elementArray = { {0,1,2, 1,2,3, 1,5,3, 5,3,7, 5, 4, 7, 4, 7, 6, 4, 0, 6, 0, 6, 2, 4,0,5, 5,0,1,6,2,7,7,2,3} };
-	PushTuple<std::array<GLuint, 36>, std::vector<GLuint>>(elementArray, indexes);
-
 	vao = 0;//Cria o vertex array object e liga o buffer a ele
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	vertexesVbo = 0;//Cria o buffer dos vertices e passa os dados pra ele.
 	vertexesVbo = CreateGLArrayBuffer<GLfloat>(vertexes);
-	elementBuffer = 0;//cria os elementos
-	elementBuffer = CreateGLElementBuffer<GLuint>(indexes);
 
 	shader->UseProgram();
 	GLuint vpLocation = shader->GetAttribute("vp");//ligação vao-shader
@@ -128,9 +140,7 @@ int myActor::RenderOpaqueGeometry(vtkViewport *view){
 		GLuint mvpLocation = shader->GetUniform("mvp");
 		glUniformMatrix4fv(mvpLocation, 1, true, mvpData.data());//passa a mvp pro shader
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-		glDrawElements(GL_TRIANGLES, indexes.size(), GL_UNSIGNED_INT, (void*)0);
-		//glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
+		glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
 
 		err = glGetError();
 		if (err != GL_NO_ERROR)
