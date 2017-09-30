@@ -28,11 +28,9 @@ int main(int argc, char **argv){
 
 		renderer->AddActor(mapper);
 		renderer->ResetCamera();
-		//renderer->GetActiveCamera()->ParallelProjectionOn();
-		//renderer->GetActiveCamera()->Zoom(1.5);
+		renderer->GetActiveCamera()->ParallelProjectionOn();
+		//renderer->GetActiveCamera()->Zoom(5);
 
-
-		renderer->ResetCamera();
 		renderWindow->Render();
 		renderWindowInteractor->Start();
 	}

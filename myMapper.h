@@ -47,7 +47,8 @@ private:
 	bool isSet;
 	std::array<double, 6> bounds;
 	std::vector<GLfloat> vertexes; //Estrutura pra guardar os vertices
-	GLuint vao, vertexesVbo; //O vertex array object e o vertex buffer object.
+	std::vector<GLfloat> colors; //as cores
+	GLuint vao, vertexesVbo, colorsVbo; //O vertex array object e o vertex buffer object.
 	//Método para fazer push de coisas nos buffers
 	template<class TTuple, class TVector> void PushTuple(const TTuple &t, TVector &v){
 		for (unsigned int i = 0; i < t.size(); i++)
