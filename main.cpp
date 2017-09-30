@@ -29,7 +29,7 @@ int main(int argc, char **argv){
 		renderer->AddActor(mapper);
 		renderer->ResetCamera();
 		renderer->GetActiveCamera()->ParallelProjectionOn();
-		//renderer->GetActiveCamera()->Zoom(5);
+		renderer->GetActiveCamera()->Zoom(5);
 
 		renderWindow->Render();
 		renderWindowInteractor->Start();

@@ -56,9 +56,11 @@ void myActor::SetUp(){
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,1, 1} }, vertexes);
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ {  1,1,1 } }, vertexes);
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,-1,1 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,1,1 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ {  1,1,1 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ {  1,-1,1 } }, vertexes);
+
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1,1,1 } }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1,-1,1 } }, vertexes);
+	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,-1,1 } }, vertexes);
+
 	//Amarela, ok
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,-1.0f} }, vertexes);
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0} }, vertexes);
@@ -191,7 +193,7 @@ int myActor::RenderOpaqueGeometry(vtkViewport *view){
 		GLuint mvpLocation = shader->GetUniform("mvp");
 		glUniformMatrix4fv(mvpLocation, 1, true, mvpData.data());//passa a mvp pro shader
 
-		glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
+		glDrawArrays(GL_TRIANGLES, 0, vertexes.size()/3);
 
 		err = glGetError();
 		if (err != GL_NO_ERROR)
