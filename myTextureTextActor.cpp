@@ -65,6 +65,13 @@ void myTextureTestActor::SetUp() {
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1,-1,1 } }, vertexes);
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,-1,1 } }, vertexes);
 
+	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
+	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
+	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
+	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
+	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,0 } }, textureCoordinates);
+	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
+
 	//Amarela, ok
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,-1.0f } }, vertexes);
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0 } }, vertexes);
@@ -101,12 +108,7 @@ void myTextureTestActor::SetUp() {
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,1.0f, } }, vertexes);
 	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0f, } }, vertexes);
 	//As texturas////////////////////////////////////////////////////////////////////
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
+
 	/////
 	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
 	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
@@ -171,11 +173,10 @@ void myTextureTestActor::SetUp() {
 	texture->Print(std::cout);
 	glGenTextures(1, &textureId);
 	glBindTexture(GL_TEXTURE_2D, textureId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glGenerateMipmap(GL_TEXTURE_2D);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->GetDimensions()[0], texture->GetDimensions()[1] , 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetScalarPointer());
 	glBindTexture(GL_TEXTURE_2D, 0);
 	

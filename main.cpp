@@ -25,7 +25,7 @@ int main(int argc, char **argv){
 
 
 		vtkSmartPointer<myTextureTestActor> mapper = vtkSmartPointer<myTextureTestActor>::New();
-
+		renderer->SetBackground(0.5, 0, 0);
 		renderer->AddActor(mapper);
 		renderer->ResetCamera();
 		renderer->GetActiveCamera()->ParallelProjectionOn();
