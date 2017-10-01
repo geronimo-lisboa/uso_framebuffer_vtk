@@ -8,7 +8,7 @@
 
 #include <boost/exception/all.hpp>
 
-#include "myMapper.h"
+#include "myTextureTextActor.h"
 
 #include <vtkDebugLeaks.h>
 
@@ -24,7 +24,7 @@ int main(int argc, char **argv){
 		renderWindow->SetInteractor(renderWindowInteractor);
 
 
-		vtkSmartPointer<myActor> mapper = vtkSmartPointer<myActor>::New();
+		vtkSmartPointer<myTextureTestActor> mapper = vtkSmartPointer<myTextureTestActor>::New();
 
 		renderer->AddActor(mapper);
 		renderer->ResetCamera();
