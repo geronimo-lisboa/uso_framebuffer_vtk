@@ -47,6 +47,7 @@ int main(int argc, char **argv){
 		std::cout << "alguma exeção misteriosa aconteceu..." << std::endl;
 	}
 
+
 	vtkDebugLeaks::SetExitError(0);
 	if (vtkDebugLeaks::PrintCurrentLeaks() != 0)
 		std::cout << "tem leaks..." << std::endl;

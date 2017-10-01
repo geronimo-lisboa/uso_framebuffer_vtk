@@ -176,7 +176,7 @@ void myTextureTestActor::SetUp() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->GetBounds()[1], texture->GetBounds()[2] , 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetScalarPointer());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->GetBounds()[1], texture->GetBounds()[3] , 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetScalarPointer());
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
 	isSet = true;
