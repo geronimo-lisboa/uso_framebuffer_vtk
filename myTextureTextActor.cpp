@@ -52,6 +52,19 @@ myTextureTestActor::~myTextureTestActor() {
 	std::cout << __FUNCTION__ << std::endl;
 }
 
+template<class Tipo> void PushDataArray(vtkSmartPointer<vtkDataArray> src, vector<Tipo> &vec)
+{
+	for (int i = 0; i<src->GetNumberOfTuples(); i++)
+	{
+		double* t = src->GetTuple(i);
+		const int tuple_size = src->GetSize() / src->GetNumberOfTuples();
+		for (int j = 0; j < tuple_size; j++)
+		{
+			vec.push_back(t[j]);
+		}
+	}
+}
+
 void myTextureTestActor::SetUp() {
 	std::string textureFileName = "";
 	std::string objectFileName = "";
@@ -73,13 +86,11 @@ void myTextureTestActor::SetUp() {
 	int tcsz = resultadoTexCoords->GetSize();
 	vtkSmartPointer<vtkDataArray> resultadoNormals = resultado->GetPointData()->GetNormals();
 	int nsz = resultadoNormals->GetSize();
-	vtkSmartPointer<vtkPoints> resultadoPontos = resultado->GetPoints();
-	int vsz = resultadoPontos->GetData()->GetSize();
+	//vtkSmartPointer<vtkPoints> resultadoPontos = resultado->GetPoints();
+	vtkSmartPointer<vtkDataArray> resultadoPontos = resultado->GetPoints()->GetData();
 
-	MyObjReader myReader;
-	myReader.Read(objectFileName);
-	vertexes = myReader.GetVertexBuffer();
-	textureCoordinates = myReader.GetTexCoordBuffer();
+	PushDataArray<GLfloat>(resultadoTexCoords, textureCoordinates);
+	PushDataArray<GLfloat>(resultadoPontos, vertexes);
 
 	vao = 0;//Cria o vertex array object e liga o buffer a ele
 	glGenVertexArrays(1, &vao);
