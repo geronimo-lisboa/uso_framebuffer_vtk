@@ -12,6 +12,8 @@
 #include <gl/GLU.h>
 #include <array>
 #include <vtkPNGReader.h>
+#include "myObjReader.h"
+#include <string>
 
 vtkObjectFactoryNewMacro(myTextureTestActor);
 
@@ -47,104 +49,22 @@ myTextureTestActor::~myTextureTestActor() {
 
 void myTextureTestActor::SetUp() {
 	std::string textureFileName = "";
+	std::string objectFileName = "";
 #ifdef AVELL
-	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\shaders\\Texture2d.vs", 
+	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\shaders\\Texture2d.vs",
 		"C:\\programacao\\estudo-framebuffer\\shaders\\Texture2d.fs");
 	textureFileName = "C:\\programacao\\estudo-framebuffer\\assets\\teste_tex.png";
+	objectFileName = "C:\\programacao\\estudo-framebuffer\\assets\\plano.obj";
 #endif
 #ifdef MEDILAB
-	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertesShader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
-	textureFileName = "C:\\programacao\\estudo - framebuffer\\assets\\texte_tex.png";
+	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\shaders\\Texture2d.vs", "C:\\teste\\estudo-framebuffer\\shaders\\Texture2d.fs");
+	textureFileName = "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png";
+	objectFileName = "C:\\teste\\estudo-framebuffer\\assets\\plano.obj";
 #endif
-	//Define os vertices
-	//EXPERIMENTO
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,1, 1 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1,1,1 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,-1,1 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1,1,1 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1,-1,1 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1,-1,1 } }, vertexes);
-
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-
-	//Amarela, ok
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,-1.0f } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0 } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0f } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,-1.0f } }, vertexes);
-	//Branca, ok
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,-1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,-1.0f, } }, vertexes);
-	//Azul piscina, ok
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,-1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f, } }, vertexes);
-	//Azul, ok
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f, 1.0f,-1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,-1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,1.0f,-1.0f, } }, vertexes);
-	//Roxo, ???
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f, -1.0f,-1.0f } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,-1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { -1.0f,-1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,1.0f, } }, vertexes);
-	PushTuple<std::array<GLfloat, 3>, std::vector<GLfloat>>({ { 1.0f,-1.0f,-1.0f, } }, vertexes);
-	//As texturas////////////////////////////////////////////////////////////////////
-
-	/////
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	/////
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	/////
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	/////
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	/////
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,1 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 1,0 } }, textureCoordinates);
-	PushTuple<std::array<GLfloat, 2>, std::vector<GLfloat>>({ { 0,0 } }, textureCoordinates);
-	/////
+	MyObjReader myReader;
+	myReader.Read(objectFileName);
+	vertexes = myReader.GetVertexBuffer();
+	textureCoordinates = myReader.GetTexCoordBuffer();
 
 	vao = 0;//Cria o vertex array object e liga o buffer a ele
 	glGenVertexArrays(1, &vao);
@@ -168,6 +88,8 @@ void myTextureTestActor::SetUp() {
 	//Leitura da textura e sua carga pra GPU
 	vtkSmartPointer<vtkPNGReader> textureReader = vtkSmartPointer<vtkPNGReader>::New();
 	textureReader->SetFileName(textureFileName.c_str());
+	if (textureReader->CanReadFile(textureFileName.c_str()) != 3)
+		BOOST_THROW_EXCEPTION(exception(("PNG inválido ou não encontrado: " + textureFileName).c_str()));
 	textureReader->Update();
 	texture = textureReader->GetOutput();
 	texture->Print(std::cout);
@@ -179,7 +101,7 @@ void myTextureTestActor::SetUp() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->GetDimensions()[0], texture->GetDimensions()[1] , 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetScalarPointer());
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
+
 	isSet = true;
 }
 

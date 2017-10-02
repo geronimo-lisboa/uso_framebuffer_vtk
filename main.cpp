@@ -11,14 +11,10 @@
 #include "myTextureTextActor.h"
 
 #include <vtkDebugLeaks.h>
-#include "myObjReader.h"
+
 
 int main(int argc, char **argv){
 	try{
-		MyObjReader myReader;
-		myReader.Read("C:\\teste\\estudo-framebuffer\\assets\\plano.obj");
-
-
 		vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
 		vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
 		vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();

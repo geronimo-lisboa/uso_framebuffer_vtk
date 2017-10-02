@@ -1,4 +1,5 @@
 #include "myObjReader.h"
+#include <vtk_glew.h>
 #include <fstream>
 #include <vector>
 #include <boost/exception/all.hpp>
@@ -34,7 +35,7 @@ void MyObjReader::Read(std::string path)
 		//split.
 		vector<string> splittedString;
 		boost::split(splittedString, ln, boost::is_any_of(" "));
-		//ver qual é a informação
+		//ver qual é a informação e guardar onde deve.
 		if (splittedString[0] == "v")
 		{
 			array<float, 3> aVert = { { boost::lexical_cast<float>(splittedString[1]),
@@ -64,12 +65,32 @@ void MyObjReader::Read(std::string path)
 				boost::lexical_cast<unsigned int>(splittedFaceData[2]), } };
 			faceDesc.push_back(aFaceData);
 		}
-
-		//guardar onde deve
 	}
-	//1)Montar a tabela de vértices
-	//2)Montar a tabela de texture coordinates
-	//3)Montar a tabela de normais
-	//4)Percorrer a lista de faces e montar as faces.
-	//5)Retornar tudo.
+	//Agora eu tenho as tabelas, é só montar os buffers, usando a informação em faceDesc
+
+	for (array<unsigned int, 3> desc : faceDesc)
+	{
+		const int idVert = desc[0]-1;
+		const int idTexCoord = desc[1]-1;
+		const int idNormal = desc[2]-1;
+		PushTuple < array<float, 3>, vector<GLfloat>>(vertexTable[idVert], vertexBuffer);
+		PushTuple < array<float, 2>, vector<GLfloat>>(texcoordTable[idTexCoord], texCoordBuffer);
+		PushTuple < array<float, 3>, vector<GLfloat>>(normalTable[idNormal], normalBuffer);
+	}
+	//Ao final do processo os 3 buffers estão carregados, posso deixá-los disponíveis para quem quiser usá-los.
+}
+
+std::vector<GLfloat> MyObjReader::GetVertexBuffer()
+{
+	return vertexBuffer;
+}
+
+std::vector<GLfloat> MyObjReader::GetTexCoordBuffer()
+{
+	return texCoordBuffer;
+}
+
+std::vector<GLfloat> MyObjReader::GetNormalBuffer()
+{
+	return normalBuffer;
 }
