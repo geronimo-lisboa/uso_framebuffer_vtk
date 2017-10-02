@@ -49,7 +49,7 @@ void myActor::SetUp(){
 	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\VertexColor.vs", "C:\\programacao\\estudo-framebuffer\\VertexColor.fs");
 #endif
 #ifdef MEDILAB
-	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\vertesShader.glsl", "C:\\teste\\estudo-framebuffer\\fragmentShader.glsl");
+	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\VertexColor.vs", "C:\\teste\\estudo-framebuffer\\VertexColor.fs");
 #endif
 	//Define os vertices
 	//EXPERIMENTO
