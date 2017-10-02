@@ -14,6 +14,7 @@
 
 class myTextureTestActor :public vtkProp3D {
 private:
+
 	vtkSmartPointer<vtkImageData> texture;
 	GLuint textureId;
 

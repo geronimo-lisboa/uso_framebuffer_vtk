@@ -12,8 +12,13 @@
 #include <gl/GLU.h>
 #include <array>
 #include <vtkPNGReader.h>
+#include <vtkOBJReader.h>
 #include "myObjReader.h"
 #include <string>
+#include <vtkPointData.h>
+#include <vtkDataArray.h>
+#include <vtkPoints.h>
+
 
 vtkObjectFactoryNewMacro(myTextureTestActor);
 
@@ -61,6 +66,16 @@ void myTextureTestActor::SetUp() {
 	textureFileName = "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png";
 	objectFileName = "C:\\teste\\estudo-framebuffer\\assets\\plano.obj";
 #endif
+	vtkSmartPointer<vtkOBJReader> objImporter = vtkSmartPointer<vtkOBJReader>::New();	objImporter->SetFileName(objectFileName.c_str());
+	objImporter->Update();
+	vtkSmartPointer<vtkPolyData> resultado = objImporter->GetOutput();
+	vtkSmartPointer<vtkDataArray> resultadoTexCoords = resultado->GetPointData()->GetTCoords();
+	int tcsz = resultadoTexCoords->GetSize();
+	vtkSmartPointer<vtkDataArray> resultadoNormals = resultado->GetPointData()->GetNormals();
+	int nsz = resultadoNormals->GetSize();
+	vtkSmartPointer<vtkPoints> resultadoPontos = resultado->GetPoints();
+	int vsz = resultadoPontos->GetData()->GetSize();
+
 	MyObjReader myReader;
 	myReader.Read(objectFileName);
 	vertexes = myReader.GetVertexBuffer();
