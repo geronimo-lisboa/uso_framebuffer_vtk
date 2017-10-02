@@ -112,6 +112,8 @@ int myTextureTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 	}
 	else {
 		glFrontFace(GL_CW);
+		glDisable(GL_CULL_FACE);
+
 
 		GLenum err = GL_NO_ERROR;
 		//Montagem da matriz mvp e sua preparação pro shader
@@ -141,7 +143,7 @@ int myTextureTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 		glUniform1i(textureSamplerLocation, /*GL_TEXTURE*/0);
 		glBindTexture(GL_TEXTURE_2D, textureId);
 
-		glDrawArrays(GL_TRIANGLES, 0, vertexes.size() / 3);
+		glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
 
 		err = glGetError();
 		if (err != GL_NO_ERROR)

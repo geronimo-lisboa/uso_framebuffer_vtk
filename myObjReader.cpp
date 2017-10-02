@@ -59,11 +59,27 @@ void MyObjReader::Read(std::string path)
 		if (splittedString[0] == "f")
 		{
 			vector<string> splittedFaceData;
+			//Descrição do vértice 1
 			boost::split(splittedFaceData, splittedString[1], boost::is_any_of("/"));
 			array<unsigned int, 3> aFaceData = { { boost::lexical_cast<unsigned int>(splittedFaceData[0]),
 				boost::lexical_cast<unsigned int>(splittedFaceData[1]),
 				boost::lexical_cast<unsigned int>(splittedFaceData[2]), } };
+			splittedFaceData.clear();
 			faceDesc.push_back(aFaceData);
+			//descrição do vertice 2
+			boost::split(splittedFaceData, splittedString[2], boost::is_any_of("/"));
+			aFaceData = { { boost::lexical_cast<unsigned int>(splittedFaceData[0]),
+				boost::lexical_cast<unsigned int>(splittedFaceData[1]),
+				boost::lexical_cast<unsigned int>(splittedFaceData[2]), } };
+			splittedFaceData.clear();
+			faceDesc.push_back(aFaceData);
+			//descrição do vertice 3
+			boost::split(splittedFaceData, splittedString[3], boost::is_any_of("/"));
+			aFaceData = { { boost::lexical_cast<unsigned int>(splittedFaceData[0]),
+				boost::lexical_cast<unsigned int>(splittedFaceData[1]),
+				boost::lexical_cast<unsigned int>(splittedFaceData[2]), } };
+			faceDesc.push_back(aFaceData);
+
 		}
 	}
 	//Agora eu tenho as tabelas, é só montar os buffers, usando a informação em faceDesc
