@@ -82,7 +82,7 @@ void myTextureTestActor::SetUp() {
 
 	GLuint tcLocation = shader->GetAttribute("tc");//ligação vao-shader
 	glEnableVertexAttribArray(tcLocation);
-	glBindBuffer(GL_ARRAY_BUFFER, tcLocation);
+	glBindBuffer(GL_ARRAY_BUFFER, texCoordsVbo);
 	glVertexAttribPointer(tcLocation, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 	glUseProgram(0);
 	//Leitura da textura e sua carga pra GPU
