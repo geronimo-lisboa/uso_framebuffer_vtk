@@ -72,12 +72,12 @@ void myTextureTestActor::SetUp() {
 	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\shaders\\Texture2d.vs",
 		"C:\\programacao\\estudo-framebuffer\\shaders\\Texture2d.fs");
 	textureFileName = "C:\\programacao\\estudo-framebuffer\\assets\\teste_tex.png";
-	objectFileName = "C:\\programacao\\estudo-framebuffer\\assets\\plano.obj";
+	objectFileName = "C:\\programacao\\estudo-framebuffer\\assets\\Massinha Teste.obj";
 #endif
 #ifdef MEDILAB
 	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\shaders\\Texture2d.vs", "C:\\teste\\estudo-framebuffer\\shaders\\Texture2d.fs");
 	textureFileName = "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png";
-	objectFileName = "C:\\teste\\estudo-framebuffer\\assets\\plano.obj";
+	objectFileName = "C:\\teste\\estudo-framebuffer\\assets\\Massinha Teste.obj";
 #endif
 	vtkSmartPointer<vtkOBJReader> objImporter = vtkSmartPointer<vtkOBJReader>::New();
 	objImporter->SetFileName(objectFileName.c_str());
