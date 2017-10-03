@@ -7,22 +7,23 @@ file(GLOB my_source_files "*.h" "*.cpp" "*.cxx")
 add_executable(fb00 ${my_source_files} )  
 
 # Find VTK
-set(VTK_DIR "C:/VTK-7.0.0-build")
+set(VTK_DIR "C:/libs/VTK-8.0.0_bin")
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
 
 # Find ITK
-set(ITK_DIR "C:/itk_nova/ITK_build")
+set(ITK_DIR "C:/libs/itk/ITK_bin")
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
 target_link_libraries(fb00   ${ITK_LIBRARIES} ${VTK_LIBRARIES})
 
 #boost.org
-SET (BOOST_INCLUDE_DIR "C:/boost_1_64_0")
+SET (BOOST_INCLUDE_DIR "C:/libs/boost_1_64_0")
 include_directories(${BOOST_INCLUDE_DIR})
-target_link_libraries(fb00 "C:/boost_1_64_0/stage/win32/lib/libboost_signals-vc120-mt-1_64.lib")
-target_link_libraries(fb00 "C:/boost_1_64_0/stage/win32/lib/libboost_exception-vc120-mt-gd-1_64.lib")
+target_link_libraries(fb00 "C:/libs/boost_1_64_0/stage/lib/libboost_signals-vc140-mt-1_64.lib")
+target_link_libraries(fb00 "C:/libs/boost_1_64_0/stage/lib/libboost_exception-vc140-mt-gd-1_64.lib")
 
-#Controla em qual m·quina estou
-add_definitions( -DMEDILAB )
+#Controla em qual m√°quina estou
+add_definitions( -DAVELL )
+

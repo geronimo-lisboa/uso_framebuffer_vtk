@@ -79,7 +79,8 @@ void myTextureTestActor::SetUp() {
 	textureFileName = "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png";
 	objectFileName = "C:\\teste\\estudo-framebuffer\\assets\\plano.obj";
 #endif
-	vtkSmartPointer<vtkOBJReader> objImporter = vtkSmartPointer<vtkOBJReader>::New();	objImporter->SetFileName(objectFileName.c_str());
+	vtkSmartPointer<vtkOBJReader> objImporter = vtkSmartPointer<vtkOBJReader>::New();
+	objImporter->SetFileName(objectFileName.c_str());
 	objImporter->Update();
 	vtkSmartPointer<vtkPolyData> resultado = objImporter->GetOutput();
 	vtkSmartPointer<vtkDataArray> resultadoTexCoords = resultado->GetPointData()->GetTCoords();
