@@ -23,7 +23,8 @@ private:
 	std::array<double, 6> bounds;
 	std::vector<GLfloat> vertexes; //Estrutura pra guardar os vertices
 	std::vector<GLfloat> textureCoordinates;//As coords de textura
-	GLuint vao, vertexesVbo, texCoordsVbo; //O vertex array object e o vertex buffer object.
+	std::vector<GLfloat> normals;
+	GLuint vao, vertexesVbo, texCoordsVbo, normalsVbo; //O vertex array object e o vertex buffer object.
 													  //Método para fazer push de coisas nos buffers
 	template<class TTuple, class TVector> void PushTuple(const TTuple &t, TVector &v) {
 		for (unsigned int i = 0; i < t.size(); i++)

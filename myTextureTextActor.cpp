@@ -87,11 +87,11 @@ void myTextureTestActor::SetUp() {
 	int tcsz = resultadoTexCoords->GetSize();
 	vtkSmartPointer<vtkDataArray> resultadoNormals = resultado->GetPointData()->GetNormals();
 	int nsz = resultadoNormals->GetSize();
-	//vtkSmartPointer<vtkPoints> resultadoPontos = resultado->GetPoints();
 	vtkSmartPointer<vtkDataArray> resultadoPontos = resultado->GetPoints()->GetData();
 
 	PushDataArray<GLfloat>(resultadoTexCoords, textureCoordinates);
 	PushDataArray<GLfloat>(resultadoPontos, vertexes);
+	PushDataArray<GLfloat>(resultadoNormals, normals);
 
 	vao = 0;//Cria o vertex array object e liga o buffer a ele
 	glGenVertexArrays(1, &vao);
@@ -100,6 +100,8 @@ void myTextureTestActor::SetUp() {
 	vertexesVbo = CreateGLArrayBuffer<GLfloat>(vertexes);
 	texCoordsVbo = 0;
 	texCoordsVbo = CreateGLArrayBuffer<GLfloat>(textureCoordinates);
+	normalsVbo = 0;
+	normalsVbo = CreateGLArrayBuffer<GLfloat>(normals);
 
 	shader->UseProgram();
 	GLuint vpLocation = shader->GetAttribute("vp");//ligação vao-shader
