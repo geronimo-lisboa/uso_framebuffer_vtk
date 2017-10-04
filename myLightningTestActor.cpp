@@ -174,28 +174,22 @@ int myLightiningTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 
 		glBindVertexArray(vao);//Começa a usar o vartex array
 		shader->UseProgram();//Começa a usar o shader
-
 		GLuint positionLocation = shader->GetAttribute("position");//pega a localização da vertex position e faz o bind com o vao
 		glBindAttribLocation(shader->GetProgramId(), positionLocation, "position");
-
 		GLuint textureCoordinateLocation = shader->GetAttribute("textureCoordinate");//pega a localização da vertex position e faz o bind com o vao
 		glBindAttribLocation(shader->GetProgramId(), textureCoordinateLocation, "textureCoordinate");
-
 		GLuint normalLocation = shader->GetAttribute("normal");//pega a localização da vertex position e faz o bind com o vao
 		glBindAttribLocation(shader->GetProgramId(), normalLocation, "normal");
-
 		GLuint modelMatrixLocation = shader->GetUniform("modelMatrix");
 		glUniformMatrix4fv(modelMatrixLocation, 1, true, modelData.data());
-
 		GLuint viewMatrixLocation = shader->GetUniform("viewMatrix");
 		glUniformMatrix4fv(viewMatrixLocation, 1, true, viewData.data());
-
 		GLuint projectionMatrixLocation = shader->GetUniform("projectionMatrix");
 		glUniformMatrix4fv(projectionMatrixLocation, 1, true, projData.data());
-
 		glActiveTexture(GL_TEXTURE0);
-		GLuint textureLocation = shader->GetUniform("texture");
+		GLuint textureLocation = shader->GetUniform("texUnit");
 		glUniform1i(textureLocation, /*GL_TEXTURE*/0);
+
 		glBindTexture(GL_TEXTURE_2D, textureId);
 
 		glDrawArrays(GL_TRIANGLES, 0, vertexes.size());
