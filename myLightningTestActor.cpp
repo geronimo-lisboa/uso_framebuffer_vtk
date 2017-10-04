@@ -69,13 +69,13 @@ void myLightiningTestActor::SetUp() {
 	std::string textureFileName = "";
 	std::string objectFileName = "";
 #ifdef AVELL
-	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\shaders\\Texture2d.vs",
-		"C:\\programacao\\estudo-framebuffer\\shaders\\Texture2d.fs");
+	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\shaders\\lightining.vs",
+		"C:\\programacao\\estudo-framebuffer\\shaders\\lightining.fs");
 	textureFileName = "C:\\programacao\\estudo-framebuffer\\assets\\teste_tex.png";
 	objectFileName = "C:\\programacao\\estudo-framebuffer\\assets\\Massinha Teste.obj";
 #endif
 #ifdef MEDILAB
-	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\shaders\\Texture2d.vs", "C:\\teste\\estudo-framebuffer\\shaders\\Texture2d.fs");
+	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\shaders\\lightining.vs", "C:\\teste\\estudo-framebuffer\\shaders\\lightining.fs");
 	textureFileName = "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png";
 	objectFileName = "C:\\teste\\estudo-framebuffer\\assets\\Massinha Teste.obj";
 #endif
@@ -104,15 +104,21 @@ void myLightiningTestActor::SetUp() {
 	normalsVbo = CreateGLArrayBuffer<GLfloat>(normals);
 
 	shader->UseProgram();
-	GLuint vpLocation = shader->GetAttribute("vp");//ligação vao-shader
-	glEnableVertexAttribArray(vpLocation);
+	GLuint positionLocation = shader->GetAttribute("position");//ligação vao-shader
+	glEnableVertexAttribArray(positionLocation);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexesVbo);
-	glVertexAttribPointer(vpLocation, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
-	GLuint tcLocation = shader->GetAttribute("tc");//ligação vao-shader
-	glEnableVertexAttribArray(tcLocation);
+	GLuint textureCoordinateLocation = shader->GetAttribute("textureCoordinate");//ligação vao-shader
+	glEnableVertexAttribArray(textureCoordinateLocation);
 	glBindBuffer(GL_ARRAY_BUFFER, texCoordsVbo);
-	glVertexAttribPointer(tcLocation, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(textureCoordinateLocation, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	GLuint normalLocation = shader->GetAttribute("normal");//ligação vao-shader
+	glEnableVertexAttribArray(normalLocation);
+	glBindBuffer(GL_ARRAY_BUFFER, normalsVbo);
+	glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
 	glUseProgram(0);
 	//Leitura da textura e sua carga pra GPU
 	vtkSmartPointer<vtkPNGReader> textureReader = vtkSmartPointer<vtkPNGReader>::New();
@@ -134,6 +140,16 @@ void myLightiningTestActor::SetUp() {
 	isSet = true;
 }
 
+std::array<float, 16> vtkMatrixToArray(vtkSmartPointer<vtkMatrix4x4> mat)
+{
+	std::array<float, 16> mvpData;//Tem que ser float, o opengl moderno aparentemente não aceita doubles nos uniforms
+	for (int i = 0; i < 16; i++)
+	{
+		mvpData[i] = mat->GetElement(i / 4, i % 4);
+	}
+	return mvpData;
+}
+
 int myLightiningTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 	if (!isSet)
 	{
@@ -147,29 +163,39 @@ int myLightiningTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 		GLenum err = GL_NO_ERROR;
 		//Montagem da matriz mvp e sua preparação pro shader
 		vtkRenderer* ren = vtkRenderer::SafeDownCast(view);
+		vtkSmartPointer<vtkMatrix4x4> modelMat = vtkSmartPointer<vtkMatrix4x4>::New();modelMat->Identity();
 		vtkSmartPointer<vtkMatrix4x4> projMat = ren->GetActiveCamera()->GetProjectionTransformMatrix(ren);
 		vtkSmartPointer<vtkMatrix4x4> viewMat = ren->GetActiveCamera()->GetViewTransformMatrix();
-		vtkSmartPointer<vtkMatrix4x4> vpMat = vtkSmartPointer<vtkMatrix4x4>::New();
-		vtkMatrix4x4::Multiply4x4(projMat, viewMat, vpMat);
-		std::array<float, 16> mvpData;//Tem que ser float, o opengl moderno aparentemente não aceita doubles nos uniforms
-		for (int i = 0; i < 16; i++)
-		{
-			mvpData[i] = vpMat->GetElement(i / 4, i % 4);
-		}
+
+
+		std::array<float, 16> viewData = vtkMatrixToArray(viewMat);
+		std::array<float, 16> modelData = vtkMatrixToArray(modelMat);
+		std::array<float, 16> projData = vtkMatrixToArray(projMat);
+
 		glBindVertexArray(vao);//Começa a usar o vartex array
 		shader->UseProgram();//Começa a usar o shader
 
-		GLuint vpLocation = shader->GetAttribute("vp");//pega a localização da vertex position e faz o bind com o vao
-		glBindAttribLocation(shader->GetProgramId(), vpLocation, "vp");
-		GLuint tcLocation = shader->GetAttribute("tc");//pega a localização da vertex position e faz o bind com o vao
-		glBindAttribLocation(shader->GetProgramId(), tcLocation, "tc");
+		GLuint positionLocation = shader->GetAttribute("position");//pega a localização da vertex position e faz o bind com o vao
+		glBindAttribLocation(shader->GetProgramId(), positionLocation, "position");
 
-		GLuint mvpLocation = shader->GetUniform("mvp");
-		glUniformMatrix4fv(mvpLocation, 1, true, mvpData.data());//passa a mvp pro shader
+		GLuint textureCoordinateLocation = shader->GetAttribute("textureCoordinate");//pega a localização da vertex position e faz o bind com o vao
+		glBindAttribLocation(shader->GetProgramId(), textureCoordinateLocation, "textureCoordinate");
+
+		GLuint normalLocation = shader->GetAttribute("normal");//pega a localização da vertex position e faz o bind com o vao
+		glBindAttribLocation(shader->GetProgramId(), normalLocation, "normal");
+
+		GLuint modelMatrixLocation = shader->GetUniform("modelMatrix");
+		glUniformMatrix4fv(modelMatrixLocation, 1, true, modelData.data());
+
+		GLuint viewMatrixLocation = shader->GetUniform("viewMatrix");
+		glUniformMatrix4fv(viewMatrixLocation, 1, true, viewData.data());
+
+		GLuint projectionMatrixLocation = shader->GetUniform("projectionMatrix");
+		glUniformMatrix4fv(projectionMatrixLocation, 1, true, projData.data());
 
 		glActiveTexture(GL_TEXTURE0);
-		GLuint textureSamplerLocation = shader->GetUniform("texUnit");
-		glUniform1i(textureSamplerLocation, /*GL_TEXTURE*/0);
+		GLuint textureLocation = shader->GetUniform("texture");
+		glUniform1i(textureLocation, /*GL_TEXTURE*/0);
 		glBindTexture(GL_TEXTURE_2D, textureId);
 
 		glDrawArrays(GL_TRIANGLES, 0, vertexes.size());

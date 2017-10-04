@@ -12,7 +12,6 @@ in vec2 vTextureCoordinate;
 out vec4 frag_colour;
 
 void main() {
-void main() {
     //A posição do vertice responsável pelo fragmento é interpolada, e essa interpolação
     //está guardada em vPosition. vPosition é a posição do fragmento atual em Object
     //Coordinates. Logo, multiplicar pela ModelMatrix tornará ela World Coordinate.
@@ -29,5 +28,10 @@ void main() {
     //Multiplica a cor (que poderia estar vindo de um sampler) pelo brilho para que
     //a cor varie de acordo com a posição do fragmento em relação à camera. A imagem 
     //da brightness está no intervalo [-1,1] e qqer coisa <= 0 zera a cor de saida.
-    gl_FragColor = vec4( color * brightness, 1.0 );
+
+	vec4 texColor = texture(texture, vTextureCoordinate);
+	texColor.x = texColor.x * brightness;
+	texColor.y = texColor.y * brightness;
+	texColor.z = texColor.z * brightness;
+    frag_colour = texColor;
 }
