@@ -192,7 +192,11 @@ int myLightiningTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 		glUniformMatrix4fv(projectionMatrixLocation, 1, true, projData.data());
 		//passa a luz
 		array<float, 3> colorPos;
-		ren->GetLights()->GetNumberOfItems
+		cout << "Quantidade de luzes: " << ren->GetLights()->GetNumberOfItems() << endl;
+		vtkLight* aLight = vtkLight::SafeDownCast( ren->GetLights()->GetItemAsObject(0) );
+		array<float, 3>lightPos = { { aLight->GetPosition()[0], aLight->GetPosition()[1], aLight->GetPosition()[2] } };
+		GLuint lightPositionLocation = shader->GetUniform("lightPosition");
+		glUniform3fv(lightPositionLocation, 1, lightPos.data());
 		//Passa as texturas.
 		glActiveTexture(GL_TEXTURE0);
 		GLuint textureLocation = shader->GetUniform("texUnit");
