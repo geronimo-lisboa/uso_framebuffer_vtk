@@ -50,7 +50,7 @@ void myLightiningTestActor::SetData(std::string objPath, std::string texturePath
 }
 
 myLightiningTestActor::myLightiningTestActor() {
-	bounds = { { -10.0, 10.0, -10.0, 10.0, -10.0, 10.0 } };
+	bounds = { { -1.0, 1.0, -1.0, 1.0, -1.0, 1.0 } };
 	isSet = false;
 	wasObjAndTexInformed = false;
 	objPath = "";

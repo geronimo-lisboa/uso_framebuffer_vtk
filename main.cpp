@@ -30,17 +30,22 @@ int main(int argc, char **argv){
 		mapperPlano->SetData("C:\\programacao\\estudo-framebuffer\\assets\\plano.obj", "C:\\programacao\\estudo-framebuffer\\assets\\teste_tex.png");
 		#endif
 		#ifdef MEDILAB
-		mapper->SetData("C:\\teste\\estudo-framebuffer\\assets\\Massinha Teste.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
+		mapperMassinha->SetData("C:\\teste\\estudo-framebuffer\\assets\\Massinha Teste.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
 		mapperPlano->SetData("C:\\teste\\estudo-framebuffer\\assets\\plano.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
 		#endif
-		mapperMassinha->SetPosition(0.5, 0, 0);
-		mapperPlano->SetPosition(-0.5, 0, 0);
+		mapperMassinha->SetPosition(0.1, 0, 0);
+		mapperPlano->SetPosition(-0.1, 0, 0);
 		renderer->SetBackground(0.5, 0, 0);
 		renderer->AddActor(mapperMassinha);
 		renderer->AddActor(mapperPlano);
 		renderer->ResetCamera();
-		//renderer->GetActiveCamera()->ParallelProjectionOn();
-		//renderer->GetActiveCamera()->Zoom(5);
+		renderer->GetActiveCamera()->ParallelProjectionOn();
+		vtkCamera* cam = renderer->GetActiveCamera();
+		cam->SetClippingRange(0.0001, 10);
+		cam->Dolly(2);
+		cam->SetViewAngle(45);
+
+		cam = renderer->GetActiveCamera();
 
 		renderWindow->Render();
 		renderWindowInteractor->Start();
