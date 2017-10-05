@@ -1,5 +1,6 @@
 #include <vtkObjectFactory.h>
 #include<iostream>
+#include <string>
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
@@ -20,9 +21,16 @@
 #include <vtkLightsPass.h>
 #include <vtkDefaultPass.h>
 #include <vtkRenderPassCollection.h>
+
+#include <vtkInteractorStyleTrackballCamera.h>
+#include <boost\signals2.hpp>//O header da boost. Esse header precisa que sua lib seja inclusa.
+
+enum MyRenderPassSwitchFramebuffer{FB_ON, FB_OFF};
+
 /*-Replicar o que já funciona.
-  -Por o framebuffer pass e uma flag de ativação do framebuffer
-  -Capturar o resultado do framebuffer.*/
+-Por o framebuffer pass e uma flag de ativação do framebuffer
+-Capturar o resultado do framebuffer.*/
+
 class MyRenderPass : public vtkRenderPass{
 private:
 	vtkSmartPointer<vtkCameraPass> cameraPass;
@@ -41,13 +49,44 @@ private:
 		sequencePass->SetPasses(passes);
 		cameraPass->SetDelegatePass(sequencePass);
 	}
+
 public:
 	static MyRenderPass* New();
 	void Render(const vtkRenderState *s){
 		cameraPass->Render(s);
 	}
+
+	//Isso aqui é bem especifico do experimento, é pra tratar o keypress e fazer o switch
+	void operator() (MyRenderPassSwitchFramebuffer ev)
+	{
+		std::cout << "YO" << std::endl;
+	}
 };
 
+
+// Define interaction style
+class KeyPressInteractorStyle : public vtkInteractorStyleTrackballCamera
+{
+public:
+	boost::signals2::signal<void(MyRenderPassSwitchFramebuffer)> switchFramebufferSignal;
+
+	static KeyPressInteractorStyle* New();
+	vtkTypeMacro(KeyPressInteractorStyle, vtkInteractorStyleTrackballCamera);
+	virtual void OnKeyPress()
+	{
+		// Get the keypress
+		vtkRenderWindowInteractor *rwi = this->Interactor;
+		std::string key = rwi->GetKeySym();
+		if (key == "F" || key == "f")
+		{
+			switchFramebufferSignal(FB_ON);
+		}
+		// Forward events
+		vtkInteractorStyleTrackballCamera::OnKeyPress();
+	}
+};
+
+vtkStandardNewMacro(KeyPressInteractorStyle);
 vtkObjectFactoryNewMacro(MyRenderPass);
 
 int main(int argc, char **argv){
@@ -87,6 +126,14 @@ int main(int argc, char **argv){
 		cam = renderer->GetActiveCamera();
 
 		renderWindow->Render();
+
+		//Bota o bagulho pra controlar a interação do usuário.
+		vtkSmartPointer<KeyPressInteractorStyle> style = vtkSmartPointer<KeyPressInteractorStyle>::New();
+		renderWindowInteractor->SetInteractorStyle(style);
+		style->SetCurrentRenderer(renderer);
+
+		style->switchFramebufferSignal.connect(boost::ref(*myRendering));
+
 		renderWindowInteractor->Start();
 	}
 	catch (boost::exception &ex)
