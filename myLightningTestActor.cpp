@@ -20,6 +20,7 @@
 #include <vtkPoints.h>
 #include <vtkLightCollection.h>
 #include <vtkLight.h>
+#include <vtkTransform.h>
 
 
 vtkObjectFactoryNewMacro(myLightiningTestActor);
@@ -41,9 +42,19 @@ public:
 
 };
 
+void myLightiningTestActor::SetData(std::string objPath, std::string texturePath)
+{
+	this->objPath = objPath;
+	this->texturePath = texturePath;
+	wasObjAndTexInformed = true;
+}
+
 myLightiningTestActor::myLightiningTestActor() {
-	bounds = { { -1.0, 1.0, -1.0, 1.0, -1.0, 1.0 } };
+	bounds = { { -10.0, 10.0, -10.0, 10.0, -10.0, 10.0 } };
 	isSet = false;
+	wasObjAndTexInformed = false;
+	objPath = "";
+	texturePath = "";
 }
 
 
@@ -68,21 +79,18 @@ template<class Tipo> void PushDataArray(vtkSmartPointer<vtkDataArray> src, vecto
 }
 
 void myLightiningTestActor::SetUp() {
-	std::string textureFileName = "";
-	std::string objectFileName = "";
+	if (!wasObjAndTexInformed) //Se não tem os dados necessários nem continua
+		BOOST_THROW_EXCEPTION(exception("Não invocou SetData(), não tem os dados necessários pra funcionar."));
 #ifdef AVELL
 	shader = std::make_unique<Shader>("C:\\programacao\\estudo-framebuffer\\shaders\\lightining.vs",
 		"C:\\programacao\\estudo-framebuffer\\shaders\\lightining.fs");
-	textureFileName = "C:\\programacao\\estudo-framebuffer\\assets\\teste_tex.png";
-	objectFileName = "C:\\programacao\\estudo-framebuffer\\assets\\Massinha Teste.obj";
 #endif
 #ifdef MEDILAB
 	shader = std::make_unique<Shader>("C:\\teste\\estudo-framebuffer\\shaders\\lightining.vs", "C:\\teste\\estudo-framebuffer\\shaders\\lightining.fs");
-	textureFileName = "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png";
-	objectFileName = "C:\\teste\\estudo-framebuffer\\assets\\Massinha Teste.obj";
 #endif
+
 	vtkSmartPointer<vtkOBJReader> objImporter = vtkSmartPointer<vtkOBJReader>::New();
-	objImporter->SetFileName(objectFileName.c_str());
+	objImporter->SetFileName(objPath.c_str());
 	objImporter->Update();
 	vtkSmartPointer<vtkPolyData> resultado = objImporter->GetOutput();
 	vtkSmartPointer<vtkDataArray> resultadoTexCoords = resultado->GetPointData()->GetTCoords();
@@ -124,9 +132,9 @@ void myLightiningTestActor::SetUp() {
 	glUseProgram(0);
 	//Leitura da textura e sua carga pra GPU
 	vtkSmartPointer<vtkPNGReader> textureReader = vtkSmartPointer<vtkPNGReader>::New();
-	textureReader->SetFileName(textureFileName.c_str());
-	if (textureReader->CanReadFile(textureFileName.c_str()) != 3)
-		BOOST_THROW_EXCEPTION(exception(("PNG inválido ou não encontrado: " + textureFileName).c_str()));
+	textureReader->SetFileName(texturePath.c_str());
+	if (textureReader->CanReadFile(texturePath.c_str()) != 3)
+		BOOST_THROW_EXCEPTION(exception(("PNG inválido ou não encontrado: " + texturePath).c_str()));
 	textureReader->Update();
 	texture = textureReader->GetOutput();
 	texture->Print(std::cout);
@@ -165,7 +173,17 @@ int myLightiningTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 		GLenum err = GL_NO_ERROR;
 		//Montagem da matriz mvp e sua preparação pro shader
 		vtkRenderer* ren = vtkRenderer::SafeDownCast(view);
-		vtkSmartPointer<vtkMatrix4x4> modelMat = vtkSmartPointer<vtkMatrix4x4>::New();modelMat->Identity();
+		vtkSmartPointer<vtkMatrix4x4> modelMat = vtkSmartPointer<vtkMatrix4x4>::New();
+		if (IsIdentity)
+			modelMat->Identity();
+		else
+		{
+			vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>(this->Transform);
+			transform->Translate(this->GetPosition());
+			transform->Update();
+			transform->GetMatrix(modelMat);
+		}
+
 		vtkSmartPointer<vtkMatrix4x4> projMat = ren->GetActiveCamera()->GetProjectionTransformMatrix(ren);
 		vtkSmartPointer<vtkMatrix4x4> viewMat = ren->GetActiveCamera()->GetViewTransformMatrix();
 
@@ -191,8 +209,6 @@ int myLightiningTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 		GLuint projectionMatrixLocation = shader->GetUniform("projectionMatrix");
 		glUniformMatrix4fv(projectionMatrixLocation, 1, true, projData.data());
 		//passa a luz
-		array<float, 3> colorPos;
-		cout << "Quantidade de luzes: " << ren->GetLights()->GetNumberOfItems() << endl;
 		vtkLight* aLight = vtkLight::SafeDownCast( ren->GetLights()->GetItemAsObject(0) );
 		array<float, 3>lightPos = { { aLight->GetPosition()[0], aLight->GetPosition()[1], aLight->GetPosition()[2] } };
 		GLuint lightPositionLocation = shader->GetUniform("lightPosition");

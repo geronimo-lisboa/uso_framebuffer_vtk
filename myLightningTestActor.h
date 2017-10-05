@@ -55,9 +55,13 @@ private:
 	virtual ~myLightiningTestActor();
 	void SetUp();
 
+	std::string objPath, texturePath;
+	bool wasObjAndTexInformed;
 public:
 	vtkTypeMacro(myLightiningTestActor, vtkProp3D);
 	static myLightiningTestActor* New();
+
+	void SetData(std::string objPath, std::string texturePath);
 
 	double* GetBounds() override
 	{

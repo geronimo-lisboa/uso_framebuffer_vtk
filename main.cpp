@@ -23,13 +23,24 @@ int main(int argc, char **argv){
 		renderWindow->AddRenderer(renderer);
 		renderWindow->SetInteractor(renderWindowInteractor);
 
-
-		vtkSmartPointer<myLightiningTestActor> mapper = vtkSmartPointer<myLightiningTestActor>::New();
+		vtkSmartPointer<myLightiningTestActor> mapperMassinha = vtkSmartPointer<myLightiningTestActor>::New();
+		vtkSmartPointer<myLightiningTestActor> mapperPlano = vtkSmartPointer<myLightiningTestActor>::New();
+		#ifdef AVELL
+		mapperMassinha->SetData("C:\\programacao\\estudo-framebuffer\\assets\\Massinha Teste.obj", "C:\\programacao\\estudo-framebuffer\\assets\\teste_tex.png");
+		mapperPlano->SetData("C:\\programacao\\estudo-framebuffer\\assets\\plano.obj", "C:\\programacao\\estudo-framebuffer\\assets\\teste_tex.png");
+		#endif
+		#ifdef MEDILAB
+		mapper->SetData("C:\\teste\\estudo-framebuffer\\assets\\Massinha Teste.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
+		mapperPlano->SetData("C:\\teste\\estudo-framebuffer\\assets\\plano.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
+		#endif
+		mapperMassinha->SetPosition(0.5, 0, 0);
+		mapperPlano->SetPosition(-0.5, 0, 0);
 		renderer->SetBackground(0.5, 0, 0);
-		renderer->AddActor(mapper);
+		renderer->AddActor(mapperMassinha);
+		renderer->AddActor(mapperPlano);
 		renderer->ResetCamera();
-		renderer->GetActiveCamera()->ParallelProjectionOn();
-		renderer->GetActiveCamera()->Zoom(5);
+		//renderer->GetActiveCamera()->ParallelProjectionOn();
+		//renderer->GetActiveCamera()->Zoom(5);
 
 		renderWindow->Render();
 		renderWindowInteractor->Start();
