@@ -33,8 +33,8 @@ int main(int argc, char **argv){
 		mapperMassinha->SetData("C:\\teste\\estudo-framebuffer\\assets\\Massinha Teste.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
 		mapperPlano->SetData("C:\\teste\\estudo-framebuffer\\assets\\plano.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
 		#endif
-		mapperMassinha->SetPosition(0.1, 0, 0);
-		mapperPlano->SetPosition(-0.1, 0, 0);
+		mapperMassinha->SetPosition(1, 0, 0);
+		mapperPlano->SetPosition(-1, 0, 0);
 		renderer->SetBackground(0.5, 0, 0);
 		renderer->AddActor(mapperMassinha);
 		renderer->AddActor(mapperPlano);

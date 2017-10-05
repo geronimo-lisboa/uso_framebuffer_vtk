@@ -178,10 +178,11 @@ int myLightiningTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 			modelMat->Identity();
 		else
 		{
-			vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>(this->Transform);
-			transform->Translate(this->GetPosition());
-			transform->Update();
-			transform->GetMatrix(modelMat);
+			vtkSmartPointer<vtkTransform> t = vtkSmartPointer<vtkTransform>::New();
+			t->DeepCopy(Transform);
+			t->Translate(this->GetPosition());
+			t->Update();
+			t->GetMatrix(modelMat);
 		}
 
 		vtkSmartPointer<vtkMatrix4x4> projMat = ren->GetActiveCamera()->GetProjectionTransformMatrix(ren);
