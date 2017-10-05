@@ -1,3 +1,4 @@
+#include <vtkObjectFactory.h>
 #include<iostream>
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
@@ -12,10 +13,48 @@
 
 #include <vtkDebugLeaks.h>
 
+#include <vtkOpenGLRenderer.h>
+#include <vtkRenderPass.h>
+#include <vtkSequencePass.h>
+#include <vtkCameraPass.h>
+#include <vtkLightsPass.h>
+#include <vtkDefaultPass.h>
+#include <vtkRenderPassCollection.h>
+/*-Replicar o que já funciona.
+  -Por o framebuffer pass e uma flag de ativação do framebuffer
+  -Capturar o resultado do framebuffer.*/
+class MyRenderPass : public vtkRenderPass{
+private:
+	vtkSmartPointer<vtkCameraPass> cameraPass;
+	vtkSmartPointer<vtkLightsPass> lightsPass;
+	vtkSmartPointer<vtkDefaultPass> defaultPass;
+	vtkSmartPointer<vtkRenderPassCollection> passes;
+	vtkSmartPointer<vtkSequencePass> sequencePass;
+	MyRenderPass(){
+		sequencePass = vtkSmartPointer<vtkSequencePass>::New();
+		lightsPass = vtkSmartPointer<vtkLightsPass>::New();
+		defaultPass = vtkSmartPointer<vtkDefaultPass>::New();
+		passes = vtkSmartPointer<vtkRenderPassCollection>::New();
+		cameraPass = vtkSmartPointer<vtkCameraPass>::New();
+		passes->AddItem(lightsPass);
+		passes->AddItem(defaultPass);
+		sequencePass->SetPasses(passes);
+		cameraPass->SetDelegatePass(sequencePass);
+	}
+public:
+	static MyRenderPass* New();
+	void Render(const vtkRenderState *s){
+		cameraPass->Render(s);
+	}
+};
+
+vtkObjectFactoryNewMacro(MyRenderPass);
 
 int main(int argc, char **argv){
 	try{
 		vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
+		vtkSmartPointer<MyRenderPass> myRendering = vtkSmartPointer<MyRenderPass>::New();
+		vtkOpenGLRenderer::SafeDownCast(renderer)->SetPass(myRendering);
 		vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
 		vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 
