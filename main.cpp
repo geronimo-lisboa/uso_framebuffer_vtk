@@ -33,14 +33,14 @@ int main(int argc, char **argv){
 		mapper->SetData("C:\\teste\\estudo-framebuffer\\assets\\Massinha Teste.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
 		mapperPlano->SetData("C:\\teste\\estudo-framebuffer\\assets\\plano.obj", "C:\\teste\\estudo-framebuffer\\assets\\teste_tex.png");
 		#endif
-		mapperMassinha->SetPosition(0.5, 0, 0);
-		mapperPlano->SetPosition(-0.5, 0, 0);
+		mapperMassinha->SetPosition(1, 0, 0);
+		mapperPlano->SetPosition(-1, 0, 0);
 		renderer->SetBackground(0.5, 0, 0);
 		renderer->AddActor(mapperMassinha);
 		renderer->AddActor(mapperPlano);
+		renderWindow->SetSize(600, 600);
 		renderer->ResetCamera();
-		//renderer->GetActiveCamera()->ParallelProjectionOn();
-		//renderer->GetActiveCamera()->Zoom(5);
+		vtkCamera *cam = renderer->GetActiveCamera();
 
 		renderWindow->Render();
 		renderWindowInteractor->Start();

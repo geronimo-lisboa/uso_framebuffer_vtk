@@ -50,7 +50,7 @@ void myLightiningTestActor::SetData(std::string objPath, std::string texturePath
 }
 
 myLightiningTestActor::myLightiningTestActor() {
-	bounds = { { -10.0, 10.0, -10.0, 10.0, -10.0, 10.0 } };
+	bounds = { { -1.0, 1.0, -1.0, 1.0, -1.0, 1.0 } };
 	isSet = false;
 	wasObjAndTexInformed = false;
 	objPath = "";
@@ -178,10 +178,11 @@ int myLightiningTestActor::RenderOpaqueGeometry(vtkViewport *view) {
 			modelMat->Identity();
 		else
 		{
-			vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>(this->Transform);
-			transform->Translate(this->GetPosition());
-			transform->Update();
-			transform->GetMatrix(modelMat);
+			vtkSmartPointer<vtkTransform> t = vtkSmartPointer<vtkTransform>::New();
+			t->DeepCopy(this->Transform);//A Transform tem a rotação, seja via RotateX e RotateWXYZ
+			t->Translate(this->GetPosition());
+			t->Update();
+			t->GetMatrix(modelMat);
 		}
 
 		vtkSmartPointer<vtkMatrix4x4> projMat = ren->GetActiveCamera()->GetProjectionTransformMatrix(ren);
