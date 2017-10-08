@@ -66,6 +66,10 @@ public:
 	void Render(const vtkRenderState *s){
 		cameraPass->Render(s);//Renderização para a tela
 		//framebufferPass->Render(s);//Renderização para o framebuffer
+		//vtkTextureObject* colorBuffer = framebufferPass->GetDepthTexture();
+		//vtkPixelBufferObject* pbo = colorBuffer->Download();
+		//unsigned char *tela = new unsigned char[600 * 600 * 4];
+		//pbo->Download2D()
 		//vtkPixelBufferObject * pbo = framebufferPass->GetColorTexture()->Download();
 		//pbo->Print(std::cout);
 
