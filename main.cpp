@@ -22,6 +22,9 @@
 #include <vtkDefaultPass.h>
 #include <vtkRenderPassCollection.h>
 
+#include <vtkFramebufferPass.h>
+
+
 #include <vtkInteractorStyleTrackballCamera.h>
 #include <boost\signals2.hpp>//O header da boost. Esse header precisa que sua lib seja inclusa.
 
@@ -38,12 +41,16 @@ private:
 	vtkSmartPointer<vtkDefaultPass> defaultPass;
 	vtkSmartPointer<vtkRenderPassCollection> passes;
 	vtkSmartPointer<vtkSequencePass> sequencePass;
+	//O framebuffer pass, como o camera pass, tem o SetDelegate, que é passar pra ele quais renderpasses
+	//farão as coisas para ele.
+	vtkSmartPointer<vtkFramebufferPass> framebufferPass;
 	MyRenderPass(){
 		sequencePass = vtkSmartPointer<vtkSequencePass>::New();
 		lightsPass = vtkSmartPointer<vtkLightsPass>::New();
 		defaultPass = vtkSmartPointer<vtkDefaultPass>::New();
 		passes = vtkSmartPointer<vtkRenderPassCollection>::New();
 		cameraPass = vtkSmartPointer<vtkCameraPass>::New();
+		framebufferPass = vtkSmartPointer<vtkFramebufferPass>::New();
 		passes->AddItem(lightsPass);
 		passes->AddItem(defaultPass);
 		sequencePass->SetPasses(passes);
@@ -121,7 +128,6 @@ int main(int argc, char **argv){
 
 		vtkCamera *cam = renderer->GetActiveCamera();
 		renderer->GetActiveCamera()->ParallelProjectionOn();
-		vtkCamera* cam = renderer->GetActiveCamera();
 		cam->SetClippingRange(0.0001, 10);
 		cam->Dolly(2);
 		cam->SetViewAngle(45);
