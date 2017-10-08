@@ -23,6 +23,8 @@
 #include <vtkRenderPassCollection.h>
 
 #include <vtkFramebufferPass.h>
+#include <vtkTextureObject.h>
+#include <vtkPixelBufferObject.h>
 
 
 #include <vtkInteractorStyleTrackballCamera.h>
@@ -55,12 +57,18 @@ private:
 		passes->AddItem(defaultPass);
 		sequencePass->SetPasses(passes);
 		cameraPass->SetDelegatePass(sequencePass);
+		//O framebuffer pass vai receber todos os passes;
+		framebufferPass->SetDelegatePass(cameraPass);
 	}
 
 public:
 	static MyRenderPass* New();
 	void Render(const vtkRenderState *s){
-		cameraPass->Render(s);
+		cameraPass->Render(s);//Renderização para a tela
+		//framebufferPass->Render(s);//Renderização para o framebuffer
+		//vtkPixelBufferObject * pbo = framebufferPass->GetColorTexture()->Download();
+		//pbo->Print(std::cout);
+
 	}
 
 	//Isso aqui é bem especifico do experimento, é pra tratar o keypress e fazer o switch

@@ -6,6 +6,14 @@ project(estudo-framebuffer)
 file(GLOB my_source_files "*.h" "*.cpp" "*.cxx")
 add_executable(fb00 ${my_source_files} )  
 
+#find gl
+#Adiciona o opengl
+find_package(OpenGL)
+target_link_libraries(fb00 ${OPENGL_LIBRARIES})
+#Adiciona a glew
+include_directories(C:/libs/glew-2.1.0/include)
+target_link_libraries(fb00 C:/libs/glew-2.1.0/lib/Release/x64/glew32.lib)
+
 # Find VTK
 set(VTK_DIR "C:/libs/VTK-build")
 find_package(VTK REQUIRED)
