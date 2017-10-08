@@ -29,6 +29,9 @@
 
 #include <vtkInteractorStyleTrackballCamera.h>
 #include <boost\signals2.hpp>//O header da boost. Esse header precisa que sua lib seja inclusa.
+#include <vtkImageData.h>
+#include <vtkImageImport.h>
+#include <vtkPNGWriter.h>
 
 enum MyRenderPassSwitchFramebuffer{FB_ON, FB_OFF};
 
@@ -65,12 +68,16 @@ public:
 	static MyRenderPass* New();
 	void Render(const vtkRenderState *s){
 		cameraPass->Render(s);//Renderização para a tela
-		//framebufferPass->Render(s);//Renderização para o framebuffer
-		//vtkTextureObject* colorBuffer = framebufferPass->GetDepthTexture();
-		//vtkPixelBufferObject* pbo = colorBuffer->Download();
-		//unsigned char *tela = new unsigned char[600 * 600 * 4];
-		//pbo->Download2D()
-		//vtkPixelBufferObject * pbo = framebufferPass->GetColorTexture()->Download();
+		framebufferPass->Render(s);//Renderização para o framebuffer
+		vtkTextureObject* colorBuffer = framebufferPass->GetDepthTexture();
+		vtkPixelBufferObject* pbo = colorBuffer->Download();
+		unsigned int dims[] = { 600,600 };
+		vtkIdType increments[] = { 1, 600 };
+		unsigned char *data = new unsigned char[600 * 600 * 4];
+		pbo->Download2D(vtkPixelBufferObject::PACKED_BUFFER, data, dims, 4, increments);
+		vtkSmartPointer<vtkImageImport> import = vtkSmartPointer<vtkImageImport>::New();
+		import->SetDataOrigin(0, 0, 0);
+		import->SetDataSpacing(1, 1, 1);
 		//pbo->Print(std::cout);
 
 	}
