@@ -33,6 +33,10 @@
 #include <vtkImageImport.h>
 #include <vtkPNGWriter.h>
 
+////http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-14-render-to-texture/
+////http://www.lighthouse3d.com/tutorials/opengl_framebuffer_objects/
+////https://open.gl/framebuffers
+
 enum MyRenderPassSwitchFramebuffer{FB_ON, FB_OFF};
 
 /*-Replicar o que já funciona.
@@ -69,17 +73,26 @@ public:
 	void Render(const vtkRenderState *s){
 		cameraPass->Render(s);//Renderização para a tela
 		framebufferPass->Render(s);//Renderização para o framebuffer
-		vtkTextureObject* colorBuffer = framebufferPass->GetDepthTexture();
+		vtkTextureObject* colorBuffer = framebufferPass->GetColorTexture();
 		vtkPixelBufferObject* pbo = colorBuffer->Download();
 		unsigned int dims[] = { 600,600 };
 		vtkIdType increments[] = { 1, 600 };
 		unsigned char *data = new unsigned char[600 * 600 * 4];
-		pbo->Download2D(vtkPixelBufferObject::PACKED_BUFFER, data, dims, 4, increments);
+		pbo->Download2D(VTK_UNSIGNED_CHAR, data, dims, 4, increments);
 		vtkSmartPointer<vtkImageImport> import = vtkSmartPointer<vtkImageImport>::New();
 		import->SetDataOrigin(0, 0, 0);
 		import->SetDataSpacing(1, 1, 1);
-		//pbo->Print(std::cout);
-
+		import->SetDataExtent(0, 599, 0, 599, 0, 0);
+		import->SetNumberOfScalarComponents(4);
+		import->SetDataScalarTypeToUnsignedChar();
+		import->SetDataExtentToWholeExtent();
+		import->SetImportVoidPointer(data);
+		import->Update();
+		vtkImageData *i = import->GetOutput();
+		vtkSmartPointer<vtkPNGWriter> writer = vtkSmartPointer<vtkPNGWriter>::New();
+		writer->SetFileName("C:\\programacao\\fb.png");
+		writer->SetInputConnection(import->GetOutputPort());
+		writer->Write();
 	}
 
 	//Isso aqui é bem especifico do experimento, é pra tratar o keypress e fazer o switch
