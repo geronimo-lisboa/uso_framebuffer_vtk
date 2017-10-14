@@ -76,13 +76,14 @@ public:
 		vtkTextureObject* colorBuffer = framebufferPass->GetColorTexture();
 		vtkPixelBufferObject* pbo = colorBuffer->Download();
 		unsigned int dims[] = { 600,600 };
-		vtkIdType increments[] = { 1, 600 };
+		vtkIdType increments[] = { 0, 0 };
 		unsigned char *data = new unsigned char[600 * 600 * 4];
 		pbo->Download2D(VTK_UNSIGNED_CHAR, data, dims, 4, increments);
 		vtkSmartPointer<vtkImageImport> import = vtkSmartPointer<vtkImageImport>::New();
 		import->SetDataOrigin(0, 0, 0);
 		import->SetDataSpacing(1, 1, 1);
 		import->SetDataExtent(0, 599, 0, 599, 0, 0);
+		import->SetWholeExtent(0, 599, 0, 599, 0, 0);
 		import->SetNumberOfScalarComponents(4);
 		import->SetDataScalarTypeToUnsignedChar();
 		import->SetDataExtentToWholeExtent();
